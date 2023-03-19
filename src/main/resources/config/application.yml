@@ -1,0 +1,24 @@
+server:
+  port: ${PORT:5050}
+
+spring:
+  application:
+    name: goodFirstIssueBot
+
+  profiles:
+    active: ${APP_ENV:dev}
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.xml
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+github_token: ${GITHUB_TOKEN}

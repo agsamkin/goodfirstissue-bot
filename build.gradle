@@ -1,0 +1,74 @@
+plugins {
+	id 'java'
+	id 'application'
+	id 'org.springframework.boot' version '2.7.9'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'org.liquibase.gradle' version '2.0.4'
+}
+
+group = 'agsamkin.code'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.liquibase:liquibase-core'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'org.postgresql:postgresql'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	liquibaseRuntime(
+			sourceSets.main.output,
+			'org.liquibase:liquibase-core:4.17.0',
+			'org.liquibase.ext:liquibase-hibernate5:4.17.0',
+			'org.springframework.boot:spring-boot-starter-data-jpa',
+			"org.postgresql:postgresql",
+	)
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+application {
+	mainClass = 'agsamkin.code.GoodFirstIssueBotApplication'
+}
+
+diffChangeLog {
+	dependsOn compileJava
+}
+
+liquibase {
+	activities {
+		main {
+			// Указываем путь, по которому будет сгенерирован файл миграции
+			changeLogFile 'src/main/resources/db/changelog/changelog-master.xml'
+			// Указывем источник, с которым будут сравниваться изменения
+			// Это база данных, изначально она пустая
+			url 'jdbc:postgresql://localhost:5432/goodfirstissue-bot'
+			// Имя пользователя и пароль для подключения к базе
+			username 'postgres'
+			password 'admin'
+			// Сравниваем с моделями, задавая пакет
+			referenceUrl 'hibernate:spring:agsamkin.code.model.' +
+					// Указываем диалект
+					'?dialect=org.hibernate.dialect.PostgreSQL10Dialect' +
+					// Указываем правила именования таблиц и столбцов,
+					// чтобы они соответствовали правилам Spring
+					'&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy'
+		}
+	}
+}
+

@@ -24,9 +24,16 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.liquibase:liquibase-core'
+
+	implementation 'org.kohsuke:github-api:1.314'
+	implementation 'org.telegram:telegrambots-spring-boot-starter:6.5.0'
+
 	compileOnly 'org.projectlombok:lombok'
+
 	runtimeOnly 'org.postgresql:postgresql'
+
 	annotationProcessor 'org.projectlombok:lombok'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	liquibaseRuntime(

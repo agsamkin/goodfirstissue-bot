@@ -1,5 +1,5 @@
 server:
-  port: ${PORT:5050}
+  port: ${PORT:8080}
 
 spring:
   application:
@@ -22,3 +22,8 @@ spring:
         enabled: true
 
 github_token: ${GITHUB_TOKEN}
+
+telegram-bot:
+  webhook-path: https://9502-185-90-100-153.ngrok.io
+  bot-username: goodfirstissue_bot
+  bot-token: ${TG_BOT_TOKEN}

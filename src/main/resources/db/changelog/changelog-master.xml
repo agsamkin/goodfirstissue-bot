@@ -5,4 +5,22 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
                    http://www.liquibase.org/xml/ns/dbchangelog
-                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd"/>
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+    <changeSet author="a.samkin (generated)" id="1679343026962-1">
+        <createTable tableName="tg_user">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="tg_userPK"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="first_name" type="VARCHAR(255)"/>
+            <column name="language_code" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="updated_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="user_id" type="BIGINT"/>
+            <column name="user_name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="a.samkin (generated)" id="1679343026962-2">
+        <addUniqueConstraint columnNames="user_id" constraintName="UC_TG_USERUSER_ID_COL" tableName="tg_user"/>
+    </changeSet>
+</databaseChangeLog>

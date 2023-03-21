@@ -1,6 +1,6 @@
 package agsamkin.code.telegram;
 
-import agsamkin.code.service.impl.TgUserServiceImpl;
+import agsamkin.code.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Component
 public class UpdateHandler {
 
-    private final TgUserServiceImpl tgUserService;
+    private final UserService userService;
 
     public SendMessage handleUpdate(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
@@ -18,7 +18,7 @@ public class UpdateHandler {
             Long chatId = update.getMessage().getChatId();
 
             if (BotCommand.START.getName().equals(text)) {
-                tgUserService.registerTgUser(update.getMessage().getFrom());
+                userService.registerUser(update.getMessage());
                 return getSendMessage(chatId, "Hello @" + update.getMessage().getFrom().getUserName());
             } else if (BotCommand.SETTINGS.getName().equals(text)) {
                 return getSendMessage(chatId, "Settings");

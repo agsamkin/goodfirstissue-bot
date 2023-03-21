@@ -1,6 +1,7 @@
 package agsamkin.code.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import java.time.Instant;
 import java.util.Date;
 
 import static javax.persistence.TemporalType.TIMESTAMP;
@@ -23,21 +23,13 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
-@Table(name = "tg_user")
-public class TgUser {
+@Table(name = "users")
+public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "userId", unique = true)
+    @Column(name = "userId")
     private Long userId;
-
-    @Column(name = "firstName")
-    private String firstName;
-
-    @Column(name = "lastName")
-    private String lastName;
 
     @Column(name = "userName")
     private String userName;

@@ -11,7 +11,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @RestController
 @RequiredArgsConstructor
 public class WebhookController {
-
     private final TgBot tgBot;
 
     @PostMapping("/")

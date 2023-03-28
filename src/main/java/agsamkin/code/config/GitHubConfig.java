@@ -10,7 +10,6 @@ import java.io.IOException;
 
 @Configuration
 public class GitHubConfig {
-
     @Value("${github_token}")
     private String gitHubToken;
 

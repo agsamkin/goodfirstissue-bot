@@ -28,6 +28,9 @@ dependencies {
 	implementation 'org.kohsuke:github-api:1.314'
 	implementation 'org.telegram:telegrambots-spring-boot-starter:6.5.0'
 
+	implementation 'com.konghq:unirest-java:3.11.09:standalone'
+	implementation 'org.jsoup:jsoup:1.15.3'
+
 	compileOnly 'org.projectlombok:lombok'
 
 	runtimeOnly 'org.postgresql:postgresql'

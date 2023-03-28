@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public enum BotCommand {
     START("/start", "Start bot")
+    , SELECT_LANGUAGES("/select_languages", "Select languages")
     , SETTINGS("/settings", "Bot settings")
     , HELP("/help", "Help");
 

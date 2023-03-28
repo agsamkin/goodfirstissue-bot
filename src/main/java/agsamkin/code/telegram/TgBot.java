@@ -1,5 +1,6 @@
 package agsamkin.code.telegram;
 
+import agsamkin.code.telegram.handler.UpdateHandler;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +21,6 @@ import java.util.List;
 @Getter
 @Setter
 public class TgBot extends SpringWebhookBot {
-
     private String botPath;
     private String botUsername;
 
@@ -41,8 +41,8 @@ public class TgBot extends SpringWebhookBot {
     private void setBotCommandList() {
         List<BotCommand> commands = new ArrayList<>();
         Arrays.stream(agsamkin.code.telegram.BotCommand.values())
+                .filter(command -> command != agsamkin.code.telegram.BotCommand.START)
                 .forEach(command -> commands.add(new BotCommand(command.getName(), command.getDescription())));
-
         this.execute(new SetMyCommands(commands, new BotCommandScopeDefault(), null));
     }
 }

@@ -7,7 +7,18 @@
                    http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
-    <changeSet author="a.samkin (generated)" id="1679430729987-1">
+
+
+    <changeSet author="a.samkin (generated)" id="1679995399676-1">
+        <createTable tableName="languages">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="languagesPK"/>
+            </column>
+            <column name="enable" type="BOOLEAN"/>
+            <column name="name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="a.samkin (generated)" id="1679995399676-2">
         <createTable tableName="users">
             <column name="user_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="usersPK"/>
@@ -17,5 +28,8 @@
             <column name="updated_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
             <column name="user_name" type="VARCHAR(255)"/>
         </createTable>
+    </changeSet>
+    <changeSet author="a.samkin (generated)" id="1679995399676-3">
+        <addUniqueConstraint columnNames="name" constraintName="UC_LANGUAGESNAME_COL" tableName="languages"/>
     </changeSet>
 </databaseChangeLog>

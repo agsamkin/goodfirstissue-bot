@@ -1,7 +1,7 @@
 package agsamkin.code.config;
 
 import agsamkin.code.telegram.TgBot;
-import agsamkin.code.telegram.UpdateHandler;
+import agsamkin.code.telegram.handler.UpdateHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +9,6 @@ import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 
 @Configuration
 public class TgBotConfig {
-
     @Value("${telegram-bot.webhook-path}")
     private String botPath;
     @Value("${telegram-bot.bot-username}")
@@ -29,5 +28,4 @@ public class TgBotConfig {
         bot.setBotUsername(botUsername);
         return bot;
     }
-
 }

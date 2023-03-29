@@ -8,8 +8,7 @@
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
 
-
-    <changeSet author="a.samkin (generated)" id="1679995399676-1">
+    <changeSet author="a.samkin (generated)" id="1680014557472-1">
         <createTable tableName="languages">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="languagesPK"/>
@@ -18,7 +17,7 @@
             <column name="name" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="a.samkin (generated)" id="1679995399676-2">
+    <changeSet author="a.samkin (generated)" id="1680014557472-2">
         <createTable tableName="users">
             <column name="user_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="usersPK"/>
@@ -29,7 +28,23 @@
             <column name="user_name" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="a.samkin (generated)" id="1679995399676-3">
+    <changeSet author="a.samkin (generated)" id="1680014557472-3">
+        <createTable tableName="users_languages">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="language_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="a.samkin (generated)" id="1680014557472-4">
         <addUniqueConstraint columnNames="name" constraintName="UC_LANGUAGESNAME_COL" tableName="languages"/>
+    </changeSet>
+    <changeSet author="a.samkin (generated)" id="1680014557472-5">
+        <addForeignKeyConstraint baseColumnNames="language_id" baseTableName="users_languages" constraintName="FKk6mi697g77drhoc40npxap92l" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="languages" validate="true"/>
+    </changeSet>
+    <changeSet author="a.samkin (generated)" id="1680014557472-6">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="users_languages" constraintName="FKrvbgmbf0wx8mo4wektdsiavuh" deferrable="false" initiallyDeferred="false" referencedColumnNames="user_id" referencedTableName="users" validate="true"/>
     </changeSet>
 </databaseChangeLog>

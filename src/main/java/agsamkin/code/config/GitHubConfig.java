@@ -1,5 +1,6 @@
 package agsamkin.code.config;
 
+import lombok.Getter;
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.GitHubBuilder;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
 
+@Getter
 @Configuration
 public class GitHubConfig {
     @Value("${github_token}")

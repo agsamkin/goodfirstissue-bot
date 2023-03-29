@@ -1,11 +1,14 @@
 package agsamkin.code.service.impl;
 
 import agsamkin.code.api.github.GitHubApi;
+import agsamkin.code.exception.LanguageNotFoundException;
 import agsamkin.code.exception.LanguagesParsingException;
 import agsamkin.code.model.Language;
+import agsamkin.code.model.User;
 import agsamkin.code.repository.LanguageRepository;
 import agsamkin.code.service.LanguageService;
 
+import agsamkin.code.service.UserService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -13,20 +16,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Transactional
 @RequiredArgsConstructor
 @Service
 public class LanguageServiceImpl implements LanguageService {
     private final LanguageRepository languageRepository;
-
     private final GitHubApi gitHubApi;
 
     @Transactional(readOnly = true)
     @Override
-    public Optional<Language> getLanguageByName(String name) {
-        return languageRepository.findByNameIgnoreCase(name);
+    public Language getLanguageByName(String name) {
+        return languageRepository.findByNameIgnoreCase(name)
+                .orElseThrow(() -> new LanguageNotFoundException("Language not found"));
     }
 
     @Transactional(readOnly = true)
@@ -45,7 +47,7 @@ public class LanguageServiceImpl implements LanguageService {
         }
 
         for (Language language : languages) {
-            Language existingLanguage = getLanguageByName(language.getName()).orElse(null);
+            Language existingLanguage = getLanguageByName(language.getName());
             if (Objects.nonNull(existingLanguage)) {
                 existingLanguage.setName(language.getName());
                 languageRepository.save(existingLanguage);

@@ -1,11 +1,13 @@
 package agsamkin.code.telegram;
 
+import agsamkin.code.config.TgBotConfig;
 import agsamkin.code.telegram.handler.UpdateHandler;
 import lombok.Getter;
 import lombok.Setter;
 
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
@@ -20,14 +22,14 @@ import java.util.List;
 
 @Getter
 @Setter
+@Component
 public class TgBot extends SpringWebhookBot {
-    private String botPath;
-    private String botUsername;
-
+    private final TgBotConfig tgBotConfig;
     private final UpdateHandler updateHandler;
 
-    public TgBot(SetWebhook setWebhook, String botToken, UpdateHandler updateHandler) {
-        super(setWebhook, botToken);
+    public TgBot(SetWebhook setWebhook, TgBotConfig tgBotConfig, @Lazy UpdateHandler updateHandler) {
+        super(setWebhook, tgBotConfig.getBotToken());
+        this.tgBotConfig = tgBotConfig;
         this.updateHandler = updateHandler;
         setBotCommandList();
     }
@@ -37,11 +39,21 @@ public class TgBot extends SpringWebhookBot {
         return updateHandler.handleUpdate(update);
     }
 
+    @Override
+    public String getBotPath() {
+        return tgBotConfig.getBotPath();
+    }
+
+    @Override
+    public String getBotUsername() {
+        return tgBotConfig.getBotUsername();
+    }
+
     @SneakyThrows
     private void setBotCommandList() {
         List<BotCommand> commands = new ArrayList<>();
         Arrays.stream(agsamkin.code.telegram.BotCommand.values())
-                .filter(command -> command != agsamkin.code.telegram.BotCommand.START)
+                .filter(agsamkin.code.telegram.BotCommand::isShowInMenu)
                 .forEach(command -> commands.add(new BotCommand(command.getName(), command.getDescription())));
         this.execute(new SetMyCommands(commands, new BotCommandScopeDefault(), null));
     }

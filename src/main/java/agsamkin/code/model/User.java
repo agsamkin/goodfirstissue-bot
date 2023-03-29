@@ -10,13 +10,16 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import java.util.Date;
+import java.util.List;
 
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.TemporalType.TIMESTAMP;
 
 @Getter
@@ -28,22 +31,40 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 @Table(name = "users")
 public class User {
     @Id
-    @Column(name = "userId")
+    @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "userName")
+    @Column(name = "user_name")
     private String userName;
 
-    @Column(name = "languageCode")
+    @Column(name = "language_code")
     private String languageCode;
 
     @CreationTimestamp
     @Temporal(TIMESTAMP)
-    @Column(name = "createdAt")
+    @Column(name = "created_at")
     private Date createdAt;
 
     @UpdateTimestamp
     @Temporal(TIMESTAMP)
-    @Column(name = "updatedAt")
+    @Column(name = "updated_at")
     private Date updatedAt;
+
+    @ManyToMany(fetch = EAGER)
+    @JoinTable(
+            name = "users_languages",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "language_id")
+    )
+    List<Language> languages;
+
+    public List<Language> setLanguage(Language language) {
+        languages.add(language);
+        return this.languages;
+    }
+
+    public List<Language> removeLanguage(Language language) {
+        languages.remove(language);
+        return this.languages;
+    }
 }

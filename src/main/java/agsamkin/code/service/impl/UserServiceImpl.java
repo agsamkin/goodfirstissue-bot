@@ -19,19 +19,14 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public User registerUser(Message msg) {
-        User user = userRepository.findById(msg.getFrom().getId())
+    public User registerUser(User user) {
+        User existingUser = userRepository.findByUserId(user.getUserId())
                 .map(u -> {
-                    u.setUserName(msg.getFrom().getUserName());
-                    u.setLanguageCode(msg.getFrom().getLanguageCode());
+                    u.setUserName(user.getUserName());
+                    u.setLanguageCode(user.getLanguageCode());
                     return u;
-                }).orElse(
-                        User.builder()
-                                .userId(msg.getFrom().getId())
-                                .userName(msg.getFrom().getUserName())
-                                .languageCode(msg.getFrom().getLanguageCode()).build()
-                );
-        return userRepository.save(user);
+                }).orElse(user);
+        return userRepository.save(existingUser);
     }
 
     @Transactional(readOnly = true)

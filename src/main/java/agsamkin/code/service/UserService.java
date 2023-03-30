@@ -7,7 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import java.util.List;
 
 public interface UserService {
-    User registerUser(Message msg);
+    User registerUser(User user);
     User getUserById(long userId);
 
     User setLanguage(long userId, Language language);

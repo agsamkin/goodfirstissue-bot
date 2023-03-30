@@ -1,5 +1,6 @@
 package agsamkin.code.telegram.handler;
 
+import agsamkin.code.model.User;
 import agsamkin.code.service.SendMessageService;
 import agsamkin.code.service.UserService;
 import agsamkin.code.telegram.BotCommand;
@@ -22,7 +23,12 @@ public class MessageHandler {
         Long userId = message.getFrom().getId();
 
         if (BotCommand.START.getName().equals(text)) {
-            userService.registerUser(message);
+            User user = User.builder()
+                    .userId(message.getFrom().getId())
+                    .userName(message.getFrom().getUserName())
+                    .languageCode(message.getFrom().getLanguageCode()).build();
+
+            userService.registerUser(user);
             return sendMessageService.getGreetingMessage(chatId);
         } else if (BotCommand.SETTINGS.getName().equals(text)) {
             return sendMessageService.getSimpleMessage(chatId, text);

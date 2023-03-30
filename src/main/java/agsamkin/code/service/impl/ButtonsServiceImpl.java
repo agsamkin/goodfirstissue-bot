@@ -27,10 +27,10 @@ public class ButtonsServiceImpl implements ButtonsService {
 
     @Override
     public InlineKeyboardMarkup getSetupMyLanguageButtons(long userId) {
-        List<Language> allLanguages = languageService.getLanguagesByEnable(true);
+        List<Language> allLanguages = languageService.getLanguagesByShowInMenu(true);
         allLanguages.sort(Comparator.comparing(Language::getName));
 
-        List<Language> userLanguages = userService.getLanguagesByUserId(userId);
+        List<Language> userLanguages = userService.getUserLanguages(userId);
 
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
         List<InlineKeyboardButton> buttonsRow = new ArrayList<>();

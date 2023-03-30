@@ -67,7 +67,7 @@ public class SendMessageServiceImpl implements SendMessageService {
 
     @Override
     public SendMessage getMyLanguageMessage(Long chatId, Long userId) {
-        List<Language> languages = userService.getLanguagesByUserId(userId);
+        List<Language> languages = userService.getUserLanguages(userId);
         languages.sort(Comparator.comparing(Language::getName));
 
         String userLanguages = "none";

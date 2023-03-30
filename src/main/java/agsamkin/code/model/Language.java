@@ -6,7 +6,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,8 +35,8 @@ public class Language {
     private String name;
 
     @EqualsAndHashCode.Exclude
-    @Column(name = "enable")
-    private Boolean enable;
+    @Column(name = "show_in_menu")
+    private Boolean showInMenu;
 
     @EqualsAndHashCode.Exclude
     @ManyToMany(mappedBy = "languages")

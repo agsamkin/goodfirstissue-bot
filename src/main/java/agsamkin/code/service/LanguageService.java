@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface LanguageService {
     Language getLanguageByName(String name);
-    List<Language> getLanguagesByEnable(boolean enable);
+    List<Language> getLanguagesByShowInMenu(boolean showInMenu);
+
     List<Language> updateLanguages();
 }

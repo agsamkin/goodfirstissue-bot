@@ -8,7 +8,6 @@ import agsamkin.code.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.List;
 
@@ -58,7 +57,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<Language> getLanguagesByUserId(Long userId) {
+    public List<Language> getUserLanguages(Long userId) {
         User user = getUserById(userId);
         return user.getLanguages();
     }

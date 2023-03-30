@@ -57,6 +57,5 @@ public class GitHubApi {
     public void findAllGoodFirstIssue() {
         var res = gitHub.searchIssues().isOpen().q("is:public label:\"good first issue\"").list();
         System.out.println("findAllGoodFirstIssue=" + res.getTotalCount());
-
     }
 }

@@ -1,10 +1,10 @@
 package agsamkin.code.service.impl;
 
-import agsamkin.code.api.github.GitHubApi;
 import agsamkin.code.exception.LanguageNotFoundException;
 import agsamkin.code.exception.LanguagesParsingException;
 import agsamkin.code.model.Language;
 import agsamkin.code.repository.LanguageRepository;
+import agsamkin.code.service.GitHubService;
 import agsamkin.code.service.LanguageService;
 
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class LanguageServiceImpl implements LanguageService {
     private final LanguageRepository languageRepository;
-    private final GitHubApi gitHubApi;
+    private final GitHubService gitHubService;
 
     @Transactional(readOnly = true)
     @Override
@@ -38,7 +38,7 @@ public class LanguageServiceImpl implements LanguageService {
     public List<Language> updateLanguages() {
         List<Language> languages;
         try {
-            languages = gitHubApi.parseAllLanguagesFromGitHub();
+            languages = gitHubService.getAllLanguages();
         } catch (Exception e) {
             throw new LanguagesParsingException(e.getMessage());
         }

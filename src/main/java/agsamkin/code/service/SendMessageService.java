@@ -7,4 +7,6 @@ public interface SendMessageService {
     SendMessage getGreetingMessage(Long chatId);
     SendMessage getSetupMyLanguageMessage(Long chatId, Long userId);
     SendMessage getMyLanguageMessage(Long chatId, Long userId);
+    SendMessage getUnsupportedCommandMessage(Long chatId);
+    void doTest(Long chatId, Long userId);
 }

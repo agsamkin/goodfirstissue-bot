@@ -19,13 +19,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User registerUser(User user) {
-        User existingUser = userRepository.findByUserId(user.getUserId())
-                .map(u -> {
-                    u.setUserName(user.getUserName());
-                    u.setLanguageCode(user.getLanguageCode());
-                    return u;
-                }).orElse(user);
-        return userRepository.save(existingUser);
+        return userRepository.save(user);
     }
 
     @Transactional(readOnly = true)

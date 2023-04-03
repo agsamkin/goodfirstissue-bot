@@ -7,9 +7,24 @@
                    http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
-
-
-    <changeSet author="a.samkin (generated)" id="1680169754197-1">
+    <changeSet author="a.samkin (generated)" id="1680552430638-1">
+        <createTable tableName="issues">
+            <column name="issue_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="issuesPK"/>
+            </column>
+            <column name="closed_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="comments_count" type="INTEGER"/>
+            <column name="created_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="html_url" type="VARCHAR(255)"/>
+            <column name="locked" type="BOOLEAN"/>
+            <column name="number" type="INTEGER"/>
+            <column name="title" type="VARCHAR(255)"/>
+            <column name="updated_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="url" type="VARCHAR(255)"/>
+            <column name="repo_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="a.samkin (generated)" id="1680552430638-2">
         <createTable tableName="languages">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="languagesPK"/>
@@ -18,18 +33,42 @@
             <column name="show_in_menu" type="BOOLEAN"/>
         </createTable>
     </changeSet>
-    <changeSet author="a.samkin (generated)" id="1680169754197-2">
+    <changeSet author="a.samkin (generated)" id="1680552430638-3">
+        <createTable tableName="repos">
+            <column name="repo_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="reposPK"/>
+            </column>
+            <column name="archived" type="BOOLEAN"/>
+            <column name="created_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="description" type="OID"/>
+            <column name="forks_count" type="INTEGER"/>
+            <column name="full_name" type="VARCHAR(255)"/>
+            <column name="html_url" type="VARCHAR(255)"/>
+            <column name="is_template" type="BOOLEAN"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="pushed_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="stargazers_count" type="INTEGER"/>
+            <column name="updated_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="url" type="VARCHAR(255)"/>
+            <column name="visibility" type="VARCHAR(255)"/>
+            <column name="watchers_count" type="INTEGER"/>
+            <column name="language_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="a.samkin (generated)" id="1680552430638-4">
         <createTable tableName="users">
             <column name="user_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="usersPK"/>
             </column>
             <column name="created_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="first_name" type="VARCHAR(255)"/>
             <column name="language_code" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
             <column name="updated_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
             <column name="user_name" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet author="a.samkin (generated)" id="1680169754197-3">
+    <changeSet author="a.samkin (generated)" id="1680552430638-5">
         <createTable tableName="users_languages">
             <column name="user_id" type="BIGINT">
                 <constraints nullable="false"/>
@@ -39,13 +78,19 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="a.samkin (generated)" id="1680169754197-4">
+    <changeSet author="a.samkin (generated)" id="1680552430638-6">
         <addUniqueConstraint columnNames="name" constraintName="UC_LANGUAGESNAME_COL" tableName="languages"/>
     </changeSet>
-    <changeSet author="a.samkin (generated)" id="1680169754197-5">
+    <changeSet author="a.samkin (generated)" id="1680552430638-7">
+        <addForeignKeyConstraint baseColumnNames="repo_id" baseTableName="issues" constraintName="FK22xe0eywi6dy21e658h86ul7h" deferrable="false" initiallyDeferred="false" referencedColumnNames="repo_id" referencedTableName="repos" validate="true"/>
+    </changeSet>
+    <changeSet author="a.samkin (generated)" id="1680552430638-8">
+        <addForeignKeyConstraint baseColumnNames="language_id" baseTableName="repos" constraintName="FK5xageubif644n00t9dx0kio3r" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="languages" validate="true"/>
+    </changeSet>
+    <changeSet author="a.samkin (generated)" id="1680552430638-9">
         <addForeignKeyConstraint baseColumnNames="language_id" baseTableName="users_languages" constraintName="FKk6mi697g77drhoc40npxap92l" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="languages" validate="true"/>
     </changeSet>
-    <changeSet author="a.samkin (generated)" id="1680169754197-6">
+    <changeSet author="a.samkin (generated)" id="1680552430638-10">
         <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="users_languages" constraintName="FKrvbgmbf0wx8mo4wektdsiavuh" deferrable="false" initiallyDeferred="false" referencedColumnNames="user_id" referencedTableName="users" validate="true"/>
     </changeSet>
 </databaseChangeLog>

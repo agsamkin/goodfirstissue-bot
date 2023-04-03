@@ -1,13 +1,18 @@
 package agsamkin.code.service.impl;
 
 import agsamkin.code.model.Language;
+import agsamkin.code.model.repo.Repo;
 import agsamkin.code.service.ButtonsService;
+import agsamkin.code.service.GitHubService;
+import agsamkin.code.service.LanguageService;
+import agsamkin.code.service.RepoService;
 import agsamkin.code.service.SendMessageService;
 
 import agsamkin.code.service.UserService;
 import agsamkin.code.telegram.BotCommand;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
@@ -28,13 +33,18 @@ public class SendMessageServiceImpl implements SendMessageService {
                     + "You can control me by sending these commands:"
                     + StringUtils.repeat(LINE_BREAK, 2);
 
-    public static final String SETUP_MY_LANGUAGE_MESSAGE = "Set languages from the list below:";
-    public static final String MY_LANGUAGE_MESSAGE =
+    public static final String SETUP_MY_LANGUAGES_MESSAGE = "Set languages from the list below:";
+    public static final String MY_LANGUAGES_MESSAGE =
             "Your languages is [%s]. To change the languages, please use "
                     + BotCommand.SETUP_MY_LANGUAGES.getName() + " command.";
 
+    public final String UNSUPPORTED_COMMAND_TEXT = "Unsupported command";
+
     private final ButtonsService buttonsService;
     private final UserService userService;
+    private final LanguageService languageService;
+    private final GitHubService gitHubService;
+    private final RepoService repoService;
 
     @Override
     public SendMessage getSimpleMessage(Long chatId, String text) {
@@ -60,7 +70,7 @@ public class SendMessageServiceImpl implements SendMessageService {
 
     @Override
     public SendMessage getSetupMyLanguageMessage(Long chatId, Long userId) {
-        SendMessage sendMessage = getSimpleMessage(chatId, SETUP_MY_LANGUAGE_MESSAGE);
+        SendMessage sendMessage = getSimpleMessage(chatId, SETUP_MY_LANGUAGES_MESSAGE);
         sendMessage.setReplyMarkup(buttonsService.getSetupMyLanguageButtons(userId));
         return sendMessage;
     }
@@ -77,8 +87,24 @@ public class SendMessageServiceImpl implements SendMessageService {
                     .collect(Collectors.joining(", "));
         }
 
-        String text = MY_LANGUAGE_MESSAGE.formatted(userLanguages);
+        String text = MY_LANGUAGES_MESSAGE.formatted(userLanguages);
 
-        return getSimpleMessage(userId, text);
+        return getSimpleMessage(chatId, text);
+    }
+
+    @Async
+    @Override
+    public void doTest(Long chatId, Long userId) {
+//        List<Language> languages = languageService.getLanguagesByShowInMenu(true);
+        List<Language> languages = userService.getUserLanguages(userId);
+        for (Language language : languages) {
+            List<Repo> repos = gitHubService.getReposWithGoodFirstIssuesByLanguage(language);
+            repoService.updateRepos(repos);
+        }
+    }
+
+    @Override
+    public SendMessage getUnsupportedCommandMessage(Long chatId) {
+        return getSimpleMessage(chatId, UNSUPPORTED_COMMAND_TEXT);
     }
 }

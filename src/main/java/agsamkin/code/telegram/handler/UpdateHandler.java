@@ -12,6 +12,9 @@ public class UpdateHandler {
     private final CallbackQueryHandler callbackQueryHandler;
 
     public SendMessage handleUpdate(Update update) {
+        if (update.hasMessage() && update.getMessage().getFrom().getId() != 617933778L) {
+            return null;
+        }
         if (update.hasMessage() && update.getMessage().hasText()) {
             return messageHandler.handleMessage(update.getMessage());
         } else if (update.hasCallbackQuery()) {

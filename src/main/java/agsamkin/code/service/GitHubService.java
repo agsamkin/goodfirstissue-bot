@@ -1,14 +1,22 @@
 package agsamkin.code.service;
 
 import agsamkin.code.model.Language;
-import agsamkin.code.model.repo.Repo;
+import org.kohsuke.github.GHIssue;
+import org.kohsuke.github.GHRepository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public interface GitHubService {
-    List<Language> getAllLanguages();
-    List<Repo> getReposWithGoodFirstIssuesByLanguage(Language language);
-    List<Repo> getReposWithGoodFirstIssuesByLanguageFromDate(Language language, Date repoFrom, Date issueFrom);
+    Set<String> getAllLanguages();
+
+    GHRepository getRepoByRepoId(Long repoId);
+    List<GHRepository> getReposByLanguage(Language language);
+    List<GHRepository> getReposByLanguage(Language language, Date updatedFrom);
+
+    GHIssue getIssueFromRepoByNumber(GHRepository ghRepo, Integer number);
+    List<GHIssue> getIssuesByRepo(GHRepository ghRepo);
+    List<GHIssue> getIssuesByRepo(GHRepository ghRepo, Date since);
 }
 

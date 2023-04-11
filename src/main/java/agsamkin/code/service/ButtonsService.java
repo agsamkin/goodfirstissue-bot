@@ -3,5 +3,5 @@ package agsamkin.code.service;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 public interface ButtonsService {
-    InlineKeyboardMarkup getSetupMyLanguageButtons(long userId);
+    InlineKeyboardMarkup getSetupMyLanguageButtons(Long userId);
 }

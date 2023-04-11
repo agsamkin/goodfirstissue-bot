@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface UserService {
     User registerUser(User user);
-    User getUserById(long userId);
+    User getUserByUserId(Long userId);
 
-    User setLanguage(long userId, Language language);
-    User removeLanguage(long userId, Language language);
+    User setLanguage(Long userId, Language language);
+    User removeLanguage(Long userId, Language language);
     List<Language> getUserLanguages(Long userId);
 }

@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.util.Objects;
+
 @RequiredArgsConstructor
 @Component
 public class UpdateHandler {
@@ -12,6 +14,10 @@ public class UpdateHandler {
     private final CallbackQueryHandler callbackQueryHandler;
 
     public SendMessage handleUpdate(Update update) {
+        if (Objects.isNull(update)) {
+            return null;
+        }
+
         if (update.hasMessage() && update.getMessage().getFrom().getId() != 617933778L) {
             return null;
         }

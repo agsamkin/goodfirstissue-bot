@@ -1,6 +1,5 @@
 package agsamkin.code.model;
 
-import agsamkin.code.model.repo.Repo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -11,15 +10,14 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+
 import java.util.Date;
 
 import static javax.persistence.TemporalType.TIMESTAMP;
 
-@EqualsAndHashCode
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -28,8 +26,9 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 @Entity
 @Table(name = "issues")
 public class Issue {
+//    @EqualsAndHashCode.Include
     @Id
-    @Column(name = "issue_id")
+    @Column(name = "issue_id", unique = true)
     private Long issueId;
 
     @Column(name = "number")
@@ -44,8 +43,8 @@ public class Issue {
     @Column(name = "url")
     private String url;
 
-    @Column(name = "locked")
-    private Boolean locked;
+    @Column(name = "is_locked")
+    private Boolean isLocked;
 
     @Column(name = "comments_count")
     private Integer commentsCount;
@@ -61,8 +60,4 @@ public class Issue {
     @Temporal(TIMESTAMP)
     @Column(name = "closed_at")
     private Date closedAt;
-
-    @ManyToOne
-    @JoinColumn(name = "repo_id", referencedColumnName = "repo_id")
-    private Repo repo;
 }

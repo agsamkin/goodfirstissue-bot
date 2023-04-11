@@ -1,12 +1,15 @@
 package agsamkin.code.service;
 
 import agsamkin.code.model.Language;
-import agsamkin.code.model.repo.Repo;
+import agsamkin.code.model.Repo;
 
 import java.util.List;
 
 public interface RepoService {
-   List<Repo> getReposByLanguages(Language language);
+   List<Repo> getReposToUpdateByLanguage(Language language);
+   List<Repo> getReposToDeleteByLanguage(Language language);
+
+   Repo saveRepo(Repo repo);
    Repo updateRepo(Repo repo);
-   List<Repo> updateRepos(List<Repo> repos);
+   void deleteRepo(Repo repo);
 }

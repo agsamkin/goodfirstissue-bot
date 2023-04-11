@@ -6,19 +6,21 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import java.util.List;
 
-@EqualsAndHashCode
+import static javax.persistence.GenerationType.IDENTITY;
+
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -26,20 +28,23 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "languages")
-public class Language {
-    @EqualsAndHashCode.Exclude
+public class Language implements Comparable<Language> {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
+    @EqualsAndHashCode.Include
     @Column(name = "name", unique = true)
     private String name;
 
-    @EqualsAndHashCode.Exclude
-    @Column(name = "show_in_menu")
-    private Boolean showInMenu;
+    @Column(name = "enable")
+    private Boolean enable;
 
-    @EqualsAndHashCode.Exclude
     @ManyToMany(mappedBy = "languages")
     private List<User> users;
+
+    @Override
+    public int compareTo(Language other) {
+        return StringUtils.compare(this.getName(), other.getName());
+    }
 }

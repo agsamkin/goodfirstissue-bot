@@ -2,6 +2,7 @@ package agsamkin.code.telegram.handler;
 
 import agsamkin.code.model.User;
 import agsamkin.code.service.LanguageService;
+import agsamkin.code.service.ScheduleService;
 import agsamkin.code.service.SendMessageService;
 import agsamkin.code.service.UserService;
 import agsamkin.code.telegram.BotCommand;
@@ -16,6 +17,7 @@ public class MessageHandler {
     private final UserService userService;
     private final SendMessageService sendMessageService;
     private final LanguageService languageService;
+    private final ScheduleService scheduleService;
 
     public SendMessage handleMessage(Message message) {
         String text = message.getText();
@@ -31,12 +33,11 @@ public class MessageHandler {
                     .languageCode(message.getFrom().getLanguageCode()).build();
 
             userService.registerUser(user);
-            languageService.updateLanguages();
             return sendMessageService.getGreetingMessage(chatId);
         } else if (BotCommand.SETTINGS.getName().equals(text)) {
-            return sendMessageService.getSimpleMessage(chatId, text);
+            return sendMessageService.getUnsupportedCommandMessage(chatId);
         } else if (BotCommand.HELP.getName().equals(text)) {
-            return sendMessageService.getSimpleMessage(chatId, text);
+            return sendMessageService.getUnsupportedCommandMessage(chatId);
 
         } else if (BotCommand.SETUP_MY_LANGUAGES.getName().equals(text)) {
             return sendMessageService.getSetupMyLanguageMessage(chatId, userId);
@@ -45,6 +46,8 @@ public class MessageHandler {
         } else if (BotCommand.TEST.getName().equals(text)) {
             sendMessageService.doTest(chatId, userId);
             return sendMessageService.getUnsupportedCommandMessage(chatId);
+//            return sendMessageService.doTest(chatId, userId);
+//            return sendMessageService.getUnsupportedCommandMessage(chatId);
         } else {
             return sendMessageService.getUnsupportedCommandMessage(chatId);
         }

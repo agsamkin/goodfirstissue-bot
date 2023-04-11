@@ -25,7 +25,7 @@ spring:
 github_token: ${GITHUB_TOKEN}
 
 telegram-bot:
-  webhook-path: https://b6f2-185-90-100-153.ngrok.io
+  webhook-path: https://39b8-185-90-100-153.ngrok-free.app
   bot-username: goodfirstissue_bot
   bot-token: ${TG_BOT_TOKEN}
   my-id: ${TG_MY_ID}

@@ -19,19 +19,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User registerUser(User user) {
-        return userRepository.save(user);
+        return userRepository.save(
+                userRepository.findByUserId(user.getUserId())
+                .map(existingUser -> {
+                    existingUser.setUserName(user.getUserName());
+                    existingUser.setFirstName(user.getFirstName());
+                    existingUser.setLastName(user.getLastName());
+                    existingUser.setLanguageCode(user.getLanguageCode());
+                    return existingUser;
+                }).orElse(user)
+        );
     }
 
     @Transactional(readOnly = true)
     @Override
-    public User getUserById(long userId) {
+    public User getUserByUserId(Long userId) {
         return userRepository.findByUserId(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
     @Override
-    public User setLanguage(long userId, Language language) {
-        User user = getUserById(userId);
+    public User setLanguage(Long userId, Language language) {
+        User user = getUserByUserId(userId);
         if (user.getLanguages().contains(language)) {
             return user;
         }
@@ -40,8 +49,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User removeLanguage(long userId, Language language) {
-        User user = getUserById(userId);
+    public User removeLanguage(Long userId, Language language) {
+        User user = getUserByUserId(userId);
         if (!user.getLanguages().contains(language)) {
             return user;
         }
@@ -52,7 +61,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     @Override
     public List<Language> getUserLanguages(Long userId) {
-        User user = getUserById(userId);
+        User user = getUserByUserId(userId);
         return user.getLanguages();
     }
 }

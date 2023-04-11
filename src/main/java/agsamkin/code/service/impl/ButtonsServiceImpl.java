@@ -10,8 +10,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
@@ -26,9 +26,8 @@ public class ButtonsServiceImpl implements ButtonsService {
     private final UserService userService;
 
     @Override
-    public InlineKeyboardMarkup getSetupMyLanguageButtons(long userId) {
-        List<Language> allLanguages = languageService.getLanguagesByShowInMenu(true);
-        allLanguages.sort(Comparator.comparing(Language::getName));
+    public InlineKeyboardMarkup getSetupMyLanguageButtons(Long userId) {
+        Set<Language> allLanguages = languageService.getAllLanguages();
 
         List<Language> userLanguages = userService.getUserLanguages(userId);
 

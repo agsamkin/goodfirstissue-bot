@@ -1,7 +1,6 @@
 package agsamkin.code.service.impl;
 
 import agsamkin.code.exception.LanguageNotFoundException;
-import agsamkin.code.exception.LanguagesParsingException;
 import agsamkin.code.model.Language;
 import agsamkin.code.repository.LanguageRepository;
 import agsamkin.code.service.GitHubService;
@@ -12,7 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Transactional
 @RequiredArgsConstructor
@@ -21,44 +21,40 @@ public class LanguageServiceImpl implements LanguageService {
     private final LanguageRepository languageRepository;
     private final GitHubService gitHubService;
 
+    @Override
+    public Set<Language> updateLanguages() {
+        Set<String> languagesFromGitHub = gitHubService.getAllLanguages();
+
+        Set<Language> languages = new TreeSet<>();
+        for (String language : languagesFromGitHub) {
+            Language existingLanguage =
+                    languageRepository.findByNameIgnoreCase(language)
+                            .map(l -> {
+                                l.setName(language);
+                                return l;
+                            })
+                            .orElse(
+                                    Language.builder()
+                                            .name(language)
+                                            .enable(false).build()
+                            );
+            languageRepository.save(existingLanguage);
+            languages.add(existingLanguage);
+        }
+
+        return languages;
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Set<Language> getAllLanguages() {
+        return languageRepository.findByEnable(true);
+    }
+
     @Transactional(readOnly = true)
     @Override
     public Language getLanguageByName(String name) {
         return languageRepository.findByNameIgnoreCase(name)
                 .orElseThrow(() -> new LanguageNotFoundException("Language not found"));
     }
-
-    @Transactional(readOnly = true)
-    @Override
-    public List<Language> getLanguagesByShowInMenu(boolean showInMenu) {
-        return languageRepository.findByShowInMenu(showInMenu);
-    }
-
-    @Override
-    public List<Language> updateLanguages() {
-        List<Language> languages;
-        try {
-            languages = gitHubService.getAllLanguages();
-        } catch (Exception e) {
-            throw new LanguagesParsingException(e.getMessage());
-        }
-
-        for (Language language : languages) {
-            Language existingLanguage =
-                    languageRepository.findByNameIgnoreCase(language.getName())
-                            .map(l -> {
-                                l.setName(language.getName());
-                                return l;
-                            })
-                            .orElse(
-                                Language.builder()
-                                            .name(language.getName())
-                                            .showInMenu(false).build()
-                            );
-            languageRepository.save(existingLanguage);
-        }
-
-        return languages;
-    }
-
 }

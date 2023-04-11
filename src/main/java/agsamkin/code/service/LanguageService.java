@@ -2,11 +2,10 @@ package agsamkin.code.service;
 
 import agsamkin.code.model.Language;
 
-import java.util.List;
+import java.util.Set;
 
 public interface LanguageService {
-    Language getLanguageByName(String name);
-    List<Language> getLanguagesByShowInMenu(boolean showInMenu);
-
-    List<Language> updateLanguages();
+    Set<Language> updateLanguages();
+    Set<Language> getAllLanguages();
+    Language getLanguageByName(String value);
 }

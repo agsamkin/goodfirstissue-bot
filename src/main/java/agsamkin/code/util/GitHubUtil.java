@@ -1,23 +1,45 @@
 package agsamkin.code.util;
 
+import agsamkin.code.exception.github.GHIssueGettingException;
+import agsamkin.code.exception.github.GHRateLimitNotFoundException;
+import agsamkin.code.exception.github.GHRepoGettingException;
+
 import agsamkin.code.model.Language;
-import lombok.SneakyThrows;
+
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.lang3.time.DateUtils;
+
+import org.kohsuke.github.GHRateLimit;
 import org.kohsuke.github.GHRepository;
+import org.kohsuke.github.HttpException;
+import org.kohsuke.github.RateLimitTarget;
+
 import org.springframework.stereotype.Component;
+
+import java.io.FileNotFoundException;
 
 import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
 
+import static kong.unirest.HttpStatus.GONE;
+import static org.kohsuke.github.RateLimitTarget.CORE;
+import static org.kohsuke.github.RateLimitTarget.GRAPHQL;
+import static org.kohsuke.github.RateLimitTarget.INTEGRATION_MANIFEST;
+import static org.kohsuke.github.RateLimitTarget.SEARCH;
+
 @Component
 public class GitHubUtil {
     public static final int NUMBER_OF_MONTHS_TO_UPDATE_REPO = 1;
-    public static final int NUMBER_OF_MONTHS_TO_DELETE_REPO = 3;
+    public static final int NUMBER_OF_MONTHS_TO_DELETE_REPO = 2;
 
     public static final int NUMBER_OF_MONTHS_TO_UPDATE_ISSUE = 3;
 
     public static final double MIN_PERCENT_LANGUAGE_USAGE_IN_REPO = 70;
+    public static final double _100_PERCENT = 100;
+
+    public static final int MIN_REMAINING_NUMBER_OF_REQUEST = 1;
 
     public Date getLastDateUpdatedRepoFilter() {
         return DateUtils.addMonths(new Date(), -NUMBER_OF_MONTHS_TO_UPDATE_REPO);
@@ -31,23 +53,21 @@ public class GitHubUtil {
         return DateUtils.addMonths(new Date(), -NUMBER_OF_MONTHS_TO_UPDATE_ISSUE);
     }
 
-    public boolean isMainLanguageInRepo(Language language, GHRepository ghRepo) {
-        if (getPercentLanguageUsageInRepo(language, ghRepo)
+    public boolean isMainLanguageInRepo(Map<String, Long> repoLanguages, Language language) {
+        if (getPercentLanguageUsageInRepo(repoLanguages, language)
                 < MIN_PERCENT_LANGUAGE_USAGE_IN_REPO) {
             return false;
         }
         return true;
     }
 
-    @SneakyThrows
-    public double getPercentLanguageUsageInRepo(Language language, GHRepository ghRepo) {
-        Map<String, Long> repoLanguages = ghRepo.listLanguages();
+    public double getPercentLanguageUsageInRepo(Map<String, Long> repoLanguages, Language language) {
         if (!repoLanguages.containsKey(language.getName())) {
             return 0;
         }
 
         if (repoLanguages.size() == 1) {
-            return 100;
+            return _100_PERCENT;
         }
 
         Long bytesThatLanguage = repoLanguages.get(language.getName());
@@ -56,7 +76,7 @@ public class GitHubUtil {
             return 0;
         }
 
-        return bytesThatLanguage * 100 / totalBytes;
+        return bytesThatLanguage * _100_PERCENT / totalBytes;
     }
 
     public boolean isActiveRepo(GHRepository ghRepo) {
@@ -73,6 +93,54 @@ public class GitHubUtil {
         }
 
         return true;
+    }
+
+    public boolean hasRepoNotFound(GHRepoGettingException e) {
+        if (!Objects.isNull(e.getCause())
+                && e.getCause() instanceof FileNotFoundException) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean hasIssueDeleted(GHIssueGettingException e) {
+        if (!Objects.isNull(e.getCause())
+                && e.getCause() instanceof HttpException
+                && ((HttpException) e.getCause()).getResponseCode() == GONE) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean checkRateLimitByTarget(
+            GHRateLimit ghRateLimit, RateLimitTarget rateLimitTarget) {
+
+        getRateLimitByTarget(ghRateLimit, rateLimitTarget).getRemaining();
+        int remaining = getRateLimitByTarget(ghRateLimit, rateLimitTarget).getRemaining();
+
+        if (remaining <= MIN_REMAINING_NUMBER_OF_REQUEST) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private GHRateLimit.Record getRateLimitByTarget(
+            GHRateLimit ghRateLimit, RateLimitTarget rateLimitTarget) throws GHRateLimitNotFoundException {
+
+        GHRateLimit.Record ghRateLimitRecord;
+        if (rateLimitTarget == CORE) {
+            ghRateLimitRecord = ghRateLimit.getCore();
+        } else if (rateLimitTarget == SEARCH) {
+            ghRateLimitRecord = ghRateLimit.getSearch();
+        } else if (rateLimitTarget == GRAPHQL) {
+            ghRateLimitRecord = ghRateLimit.getGraphQL();
+        } else if (rateLimitTarget == INTEGRATION_MANIFEST) {
+            ghRateLimitRecord = ghRateLimit.getIntegrationManifest();
+        } else {
+            throw new GHRateLimitNotFoundException("Rate limit not found");
+        }
+        return ghRateLimitRecord;
     }
 
 }

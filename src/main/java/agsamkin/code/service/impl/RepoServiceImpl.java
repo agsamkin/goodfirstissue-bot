@@ -10,11 +10,16 @@ import agsamkin.code.service.RepoService;
 import agsamkin.code.util.GitHubUtil;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static agsamkin.code.service.GitHubService.MAX_NUMBER_OF_REPOS_IN_QUERY_RESULT;
 
 @Transactional
 @RequiredArgsConstructor
@@ -27,7 +32,8 @@ public class RepoServiceImpl implements RepoService {
     @Override
     public List<Repo> getReposToUpdateByLanguage(Language language) {
         return repoRepository.findAllReposToUpdateByLanguage(
-                language.getId(), gitHubUtil.getLastDateUpdatedRepoFilter());
+                language.getId(), gitHubUtil.getLastDateUpdatedRepoFilter()
+                , MAX_NUMBER_OF_REPOS_IN_QUERY_RESULT);
     }
 
     @Transactional(readOnly = true)
@@ -35,6 +41,27 @@ public class RepoServiceImpl implements RepoService {
     public List<Repo> getReposToDeleteByLanguage(Language language) {
         return repoRepository.findAllReposToDeleteByLanguage(
                 language.getId(), gitHubUtil.getReposDeletionDate());
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Repo> getAllReposByLanguages(List<Language> languages, PageRequest of) {
+        List<Repo> repos = repoRepository.findAllByLanguageInAndUpdatedAtGreaterThanEqual(
+                languages, gitHubUtil.getReposDeletionDate(), of);
+
+        int reposCountPrevPage = of.getPageNumber() * of.getPageSize() ;
+        int reposCountCurrentPage = reposCountPrevPage + repos.size();
+        if (reposCountCurrentPage > MAX_NUMBER_OF_REPOS_IN_QUERY_RESULT) {
+            List<Repo> limitedRepos = new ArrayList<>();
+            for (Repo repo : repos) {
+                if ((reposCountPrevPage + limitedRepos.size()) >= MAX_NUMBER_OF_REPOS_IN_QUERY_RESULT) {
+                    break;
+                }
+                limitedRepos.add(repo);
+            }
+            return limitedRepos;
+        }
+        return repos;
     }
 
     @Override

@@ -1,8 +1,9 @@
 package agsamkin.code.telegram.handler;
 
 import agsamkin.code.model.User;
-import agsamkin.code.service.LanguageService;
-import agsamkin.code.service.ScheduleService;
+import agsamkin.code.model.setting.RepoOrder;
+import agsamkin.code.model.setting.RepoSort;
+import agsamkin.code.model.setting.Setting;
 import agsamkin.code.service.SendMessageService;
 import agsamkin.code.service.UserService;
 import agsamkin.code.telegram.BotCommand;
@@ -11,13 +12,13 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
+import java.util.Set;
+
 @RequiredArgsConstructor
 @Component
 public class MessageHandler {
     private final UserService userService;
     private final SendMessageService sendMessageService;
-    private final LanguageService languageService;
-    private final ScheduleService scheduleService;
 
     public SendMessage handleMessage(Message message) {
         String text = message.getText();
@@ -32,22 +33,25 @@ public class MessageHandler {
                     .lastName(message.getFrom().getLastName())
                     .languageCode(message.getFrom().getLanguageCode()).build();
 
+            Setting setting = Setting.builder()
+                    .user(user)
+                    .repoSort(RepoSort.UPDATED)
+                    .repoOrder(RepoOrder.DESC).build();
+            user.setSetting(setting);
+            
             userService.registerUser(user);
             return sendMessageService.getGreetingMessage(chatId);
         } else if (BotCommand.SETTINGS.getName().equals(text)) {
-            return sendMessageService.getUnsupportedCommandMessage(chatId);
+            return sendMessageService.getSettingsMessage(chatId);
         } else if (BotCommand.HELP.getName().equals(text)) {
             return sendMessageService.getUnsupportedCommandMessage(chatId);
 
         } else if (BotCommand.SETUP_MY_LANGUAGES.getName().equals(text)) {
             return sendMessageService.getSetupMyLanguageMessage(chatId, userId);
-        } else if (BotCommand.MY_LANGUAGES.getName().equals(text)) {
-            return sendMessageService.getMyLanguageMessage(chatId, userId);
-        } else if (BotCommand.TEST.getName().equals(text)) {
-            sendMessageService.doTest(chatId, userId);
-            return sendMessageService.getUnsupportedCommandMessage(chatId);
-//            return sendMessageService.doTest(chatId, userId);
-//            return sendMessageService.getUnsupportedCommandMessage(chatId);
+        } else if (BotCommand.REPOS.getName().equals(text)) {
+            return sendMessageService.getReposMessage(chatId, userId);
+        } else if (BotCommand.ISSUES.getName().equals(text)) {
+            return sendMessageService.getIssuesMessage(chatId, userId);
         } else {
             return sendMessageService.getUnsupportedCommandMessage(chatId);
         }

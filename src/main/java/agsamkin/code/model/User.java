@@ -1,8 +1,8 @@
 package agsamkin.code.model;
 
+import agsamkin.code.model.setting.Setting;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,12 +16,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
 import java.util.Date;
 import java.util.List;
 
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.TemporalType.TIMESTAMP;
 
@@ -68,6 +70,9 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "language_id")
     )
     List<Language> languages;
+
+    @OneToOne(mappedBy = "user", cascade = ALL)
+    private Setting setting;
 
     public List<Language> setLanguage(Language language) {
         languages.add(language);

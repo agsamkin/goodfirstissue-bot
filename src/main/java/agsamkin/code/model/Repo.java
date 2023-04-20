@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.time.DateUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,9 +19,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.EAGER;
@@ -100,5 +103,5 @@ public class Repo {
             inverseJoinColumns = {@JoinColumn(name = "issue_id", referencedColumnName = "issue_id")}
     )
     @MapKey(name = "issueId")
-    private Map<Long, Issue> issues = new HashMap();
+    private Map<Long, Issue> issues = new HashMap<>();
 }

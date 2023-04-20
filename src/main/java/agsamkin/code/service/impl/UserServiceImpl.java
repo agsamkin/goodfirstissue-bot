@@ -64,4 +64,9 @@ public class UserServiceImpl implements UserService {
         User user = getUserByUserId(userId);
         return user.getLanguages();
     }
+
+    @Override
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
 }

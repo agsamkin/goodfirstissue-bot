@@ -12,4 +12,6 @@ public interface UserService {
     User setLanguage(Long userId, Language language);
     User removeLanguage(Long userId, Language language);
     List<Language> getUserLanguages(Long userId);
+
+    User saveUser(User user);
 }

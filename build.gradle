@@ -31,11 +31,13 @@ dependencies {
 	implementation 'com.konghq:unirest-java:3.11.09:standalone'
 	implementation 'org.jsoup:jsoup:1.15.3'
 
-	compileOnly 'org.projectlombok:lombok'
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+
+	compileOnly 'org.projectlombok:lombok:1.18.24'
 
 	runtimeOnly 'org.postgresql:postgresql'
 
-	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 

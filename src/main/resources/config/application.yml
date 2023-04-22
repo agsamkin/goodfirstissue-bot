@@ -22,10 +22,16 @@ spring:
       filter:
         enabled: true
 
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+
 github_token: ${GITHUB_TOKEN}
 
 telegram-bot:
-  webhook-path: https://a595-185-90-100-153.ngrok-free.app
-  bot-username: goodfirstissue_bot
+  webhook-path: ${TG_BOT_WEBHOOK_PATH:https://9fc9-185-90-100-153.ngrok-free.app}
+  bot-username: ${TG_BOT_USERNAME:goodfirstissue_bot}
   bot-token: ${TG_BOT_TOKEN}
   my-id: ${TG_MY_ID}

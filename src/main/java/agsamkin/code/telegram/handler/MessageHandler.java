@@ -1,24 +1,26 @@
 package agsamkin.code.telegram.handler;
 
 import agsamkin.code.model.User;
+import agsamkin.code.model.setting.IssueOrder;
+import agsamkin.code.model.setting.IssueSort;
 import agsamkin.code.model.setting.RepoOrder;
 import agsamkin.code.model.setting.RepoSort;
 import agsamkin.code.model.setting.Setting;
 import agsamkin.code.service.SendMessageService;
 import agsamkin.code.service.UserService;
 import agsamkin.code.telegram.BotCommand;
+import agsamkin.code.telegram.TgBot;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-
-import java.util.Set;
 
 @RequiredArgsConstructor
 @Component
 public class MessageHandler {
     private final UserService userService;
     private final SendMessageService sendMessageService;
+    private final TgBot tgBot;
 
     public SendMessage handleMessage(Message message) {
         String text = message.getText();
@@ -36,24 +38,33 @@ public class MessageHandler {
             Setting setting = Setting.builder()
                     .user(user)
                     .repoSort(RepoSort.UPDATED)
-                    .repoOrder(RepoOrder.DESC).build();
+                    .repoOrder(RepoOrder.DESC)
+                    .issueSort(IssueSort.UPDATED)
+                    .issueOrder(IssueOrder.DESC).build();
             user.setSetting(setting);
             
             userService.registerUser(user);
-            return sendMessageService.getGreetingMessage(chatId);
+//            return sendMessageService.getGreetingMessage(chatId);
+            tgBot.sendMessage(sendMessageService.getGreetingMessage(chatId));
         } else if (BotCommand.SETTINGS.getName().equals(text)) {
-            return sendMessageService.getSettingsMessage(chatId);
+//            return sendMessageService.getSettingsMessage(chatId);
+            tgBot.sendMessage(sendMessageService.getSettingsMessage(chatId));
         } else if (BotCommand.HELP.getName().equals(text)) {
-            return sendMessageService.getUnsupportedCommandMessage(chatId);
-
+//            return sendMessageService.getUnsupportedCommandMessage(chatId);
+            tgBot.sendMessage(sendMessageService.getUnsupportedCommandMessage(chatId));
         } else if (BotCommand.SETUP_MY_LANGUAGES.getName().equals(text)) {
-            return sendMessageService.getSetupMyLanguageMessage(chatId, userId);
+//            return sendMessageService.getSetupMyLanguageMessage(chatId, userId);
+              tgBot.sendMessage(sendMessageService.getSetupMyLanguageMessage(chatId, userId));
         } else if (BotCommand.REPOS.getName().equals(text)) {
-            return sendMessageService.getReposMessage(chatId, userId);
+//            return sendMessageService.getReposMessage(chatId, userId);
+            tgBot.sendMessage(sendMessageService.getReposMessage(chatId, userId));
         } else if (BotCommand.ISSUES.getName().equals(text)) {
-            return sendMessageService.getIssuesMessage(chatId, userId);
+//            return sendMessageService.getIssuesMessage(chatId, userId);
+            tgBot.sendMessage(sendMessageService.getIssuesMessage(chatId, userId));
         } else {
-            return sendMessageService.getUnsupportedCommandMessage(chatId);
+//            return sendMessageService.getUnsupportedCommandMessage(chatId);
+            tgBot.sendMessage(sendMessageService.getUnsupportedCommandMessage(chatId));
         }
+        return null;
     }
 }

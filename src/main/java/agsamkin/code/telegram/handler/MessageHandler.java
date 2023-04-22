@@ -7,12 +7,15 @@ import agsamkin.code.model.setting.RepoOrder;
 import agsamkin.code.model.setting.RepoSort;
 import agsamkin.code.model.setting.Setting;
 import agsamkin.code.service.SendMessageService;
+import agsamkin.code.service.impl.SendMessageServiceImpl;
 import agsamkin.code.service.UserService;
 import agsamkin.code.telegram.BotCommand;
 import agsamkin.code.telegram.TgBot;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 @RequiredArgsConstructor
@@ -22,7 +25,7 @@ public class MessageHandler {
     private final SendMessageService sendMessageService;
     private final TgBot tgBot;
 
-    public SendMessage handleMessage(Message message) {
+    public void handleMessage(Message message) {
         String text = message.getText();
         Long chatId = message.getChatId();
         Long userId = message.getFrom().getId();
@@ -44,27 +47,22 @@ public class MessageHandler {
             user.setSetting(setting);
             
             userService.registerUser(user);
-//            return sendMessageService.getGreetingMessage(chatId);
+
             tgBot.sendMessage(sendMessageService.getGreetingMessage(chatId));
         } else if (BotCommand.SETTINGS.getName().equals(text)) {
-//            return sendMessageService.getSettingsMessage(chatId);
             tgBot.sendMessage(sendMessageService.getSettingsMessage(chatId));
         } else if (BotCommand.HELP.getName().equals(text)) {
-//            return sendMessageService.getUnsupportedCommandMessage(chatId);
-            tgBot.sendMessage(sendMessageService.getUnsupportedCommandMessage(chatId));
+            tgBot.sendMessage(sendMessageService.getHelpMessage(chatId));
+
         } else if (BotCommand.SETUP_MY_LANGUAGES.getName().equals(text)) {
-//            return sendMessageService.getSetupMyLanguageMessage(chatId, userId);
               tgBot.sendMessage(sendMessageService.getSetupMyLanguageMessage(chatId, userId));
         } else if (BotCommand.REPOS.getName().equals(text)) {
-//            return sendMessageService.getReposMessage(chatId, userId);
             tgBot.sendMessage(sendMessageService.getReposMessage(chatId, userId));
         } else if (BotCommand.ISSUES.getName().equals(text)) {
-//            return sendMessageService.getIssuesMessage(chatId, userId);
             tgBot.sendMessage(sendMessageService.getIssuesMessage(chatId, userId));
+
         } else {
-//            return sendMessageService.getUnsupportedCommandMessage(chatId);
             tgBot.sendMessage(sendMessageService.getUnsupportedCommandMessage(chatId));
         }
-        return null;
     }
 }

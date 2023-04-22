@@ -1,4 +1,4 @@
-package agsamkin.code.exception.github;
+package agsamkin.code.exception;
 
 import java.io.IOException;
 

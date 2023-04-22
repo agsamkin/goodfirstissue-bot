@@ -13,8 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static agsamkin.code.service.GitHubService.MAX_NUMBER_OF_ISSUES_IN_QUERY_RESULT;
-import static agsamkin.code.service.SendMessageService.ISSUES_SORT_PROPERTY;
+import static agsamkin.code.util.GitHubUtil.MAX_NUMBER_OF_ISSUES_IN_QUERY_RESULT;
 
 @Transactional
 @RequiredArgsConstructor
@@ -26,10 +25,6 @@ public class IssueServiceImpl implements IssueService {
     @Transactional(readOnly = true)
     @Override
     public List<Issue> getAllIssuesByRepo(Repo repo) {
-//        return issueRepository.findAllByRepoAndUpdatedAtGreaterThanEqual(repo
-//                , gitHubUtil.getLastDateUpdatedIssueFilter()
-//                , PageRequest.of(0, MAX_NUMBER_OF_ISSUES_IN_QUERY_RESULT
-//                        , Sort.by(Sort.Direction.DESC, ISSUES_SORT_PROPERTY)));
         return issueRepository.findAllByRepoAndUpdatedAtGreaterThanEqual(repo
                 , gitHubUtil.getLastDateUpdatedIssueFilter()
                 , PageRequest.of(0, MAX_NUMBER_OF_ISSUES_IN_QUERY_RESULT
@@ -42,5 +37,4 @@ public class IssueServiceImpl implements IssueService {
         return issueRepository.findAllByRepoIn(repos, of);
 
     }
-
 }

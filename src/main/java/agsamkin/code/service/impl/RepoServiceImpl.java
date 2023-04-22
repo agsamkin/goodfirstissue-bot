@@ -10,7 +10,6 @@ import agsamkin.code.service.RepoService;
 import agsamkin.code.util.GitHubUtil;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static agsamkin.code.service.GitHubService.MAX_NUMBER_OF_REPOS_IN_QUERY_RESULT;
+import static agsamkin.code.util.GitHubUtil.MAX_NUMBER_OF_REPOS_IN_QUERY_RESULT;
 
 @Transactional
 @RequiredArgsConstructor

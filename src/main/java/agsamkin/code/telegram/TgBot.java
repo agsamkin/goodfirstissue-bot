@@ -1,26 +1,24 @@
 package agsamkin.code.telegram;
 
 import agsamkin.code.config.TgBotConfig;
-import agsamkin.code.telegram.handler.UpdateHandler;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Lazy;
+
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -67,12 +65,35 @@ public class TgBot extends SpringWebhookBot {
     }
 
     public void sendMessage(SendMessage sendMessage) {
-        if (sendMessage != null) {
-            try {
-                execute(sendMessage);
-            } catch (TelegramApiException e) {
-                log.error(String.valueOf(e));
-            }
+        if (sendMessage == null) {
+            return;
+        }
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            log.error(String.valueOf(e));
+        }
+    }
+
+    public void sendMessage(EditMessageReplyMarkup editMessageReplyMarkup) {
+        if (editMessageReplyMarkup == null) {
+            return;
+        }
+        try {
+            execute(editMessageReplyMarkup);
+        } catch (TelegramApiException e) {
+            log.error(String.valueOf(e));
+        }
+    }
+
+    public void sendMessage(EditMessageText editMessageText) {
+        if (editMessageText == null) {
+            return;
+        }
+        try {
+            execute(editMessageText);
+        } catch (TelegramApiException e) {
+            log.error(String.valueOf(e));
         }
     }
 }

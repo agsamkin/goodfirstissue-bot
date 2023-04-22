@@ -1,12 +1,10 @@
 package agsamkin.code.util;
 
-import agsamkin.code.exception.github.GHIssueGettingException;
-import agsamkin.code.exception.github.GHRateLimitNotFoundException;
-import agsamkin.code.exception.github.GHRepoGettingException;
+import agsamkin.code.exception.GHIssueGettingException;
+import agsamkin.code.exception.GHRateLimitNotFoundException;
+import agsamkin.code.exception.GHRepoGettingException;
 
 import agsamkin.code.model.Language;
-
-import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang3.time.DateUtils;
 
@@ -19,11 +17,13 @@ import org.springframework.stereotype.Component;
 
 import java.io.FileNotFoundException;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
 
 import static kong.unirest.HttpStatus.GONE;
+
 import static org.kohsuke.github.RateLimitTarget.CORE;
 import static org.kohsuke.github.RateLimitTarget.GRAPHQL;
 import static org.kohsuke.github.RateLimitTarget.INTEGRATION_MANIFEST;
@@ -31,6 +31,19 @@ import static org.kohsuke.github.RateLimitTarget.SEARCH;
 
 @Component
 public class GitHubUtil {
+    public static final String GITHUB_LANGUAGES_URL = "https://github.com/search/advanced";
+
+    public static final String QUERY_REPOS =
+            "archived:false template:false mirror:false forks:>=%s good-first-issues:>=%s";
+
+    public static final int MIN_STARS_REPO_FILTER = 5;
+    public static final int MIN_FORKS_REPO_FILTER = 5;
+    public static final int MIN_GOOD_FIRST_ISSUES_FILTER = 1;
+    public static final int MAX_NUMBER_OF_REPOS_IN_QUERY_RESULT = 100;
+
+    public static final String GOOD_FIRST_ISSUE_LABEL_FILTER = "good first issue";
+    public static final int MAX_NUMBER_OF_ISSUES_IN_QUERY_RESULT = 20;
+
     public static final int NUMBER_OF_MONTHS_TO_UPDATE_REPO = 1;
     public static final int NUMBER_OF_MONTHS_TO_DELETE_REPO = 2;
 
@@ -142,5 +155,4 @@ public class GitHubUtil {
         }
         return ghRateLimitRecord;
     }
-
 }

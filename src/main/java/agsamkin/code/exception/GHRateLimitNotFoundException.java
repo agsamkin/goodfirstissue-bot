@@ -1,4 +1,4 @@
-package agsamkin.code.exception.github;
+package agsamkin.code.exception;
 
 public class GHRateLimitNotFoundException extends RuntimeException {
     public GHRateLimitNotFoundException(String message) {

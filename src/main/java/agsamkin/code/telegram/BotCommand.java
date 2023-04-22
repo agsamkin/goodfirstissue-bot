@@ -6,12 +6,12 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum BotCommand {
-    START("/start", "Start bot", false)
-    , SETTINGS("/settings", "Show settings", true)
-    , SETUP_MY_LANGUAGES("/setmylang", "Setup own languages", true)
-    , REPOS("/repos", "Get repos", true)
-    , ISSUES("/issues", "Get issues", true)
-    , HELP("/help", "Show help", false);
+    START("/start", "start bot", false)
+    , SETUP_MY_LANGUAGES("/setmylang", "setup own languages", true)
+    , REPOS("/repos", "get repositories", true)
+    , ISSUES("/issues", "get issues", true)
+    , SETTINGS("/settings", "show settings", true)
+    , HELP("/help", "show help", true);
 
     private final String name;
     private final String description;

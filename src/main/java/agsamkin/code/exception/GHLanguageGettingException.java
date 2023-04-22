@@ -1,4 +1,4 @@
-package agsamkin.code.exception.github;
+package agsamkin.code.exception;
 
 public class GHLanguageGettingException extends RuntimeException {
     public GHLanguageGettingException(String message) {

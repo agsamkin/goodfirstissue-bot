@@ -20,8 +20,5 @@ spring:
     hibernate:
       ddl-auto: none
 
-  thymeleaf:
-    cache: true
-
   liquibase:
     contexts: prod

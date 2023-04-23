@@ -1,6 +1,5 @@
 server:
-  #  port: ${PORT:8080}
-  port: 8080
+  port: ${PORT:8080}
 
 spring:
   application:
@@ -17,11 +16,6 @@ spring:
   liquibase:
     change-log: classpath:db/changelog/changelog-master.xml
 
-  mvc:
-    hiddenmethod:
-      filter:
-        enabled: true
-
   rabbitmq:
     host: ${RABBITMQ_HOST:localhost}
     port: ${RABBITMQ_PORT:5672}
@@ -32,6 +26,6 @@ github_token: ${GITHUB_TOKEN:}
 
 telegram-bot:
   webhook-path: ${TG_BOT_WEBHOOK_PATH:https://cf08-185-90-100-153.ngrok-free.app}
-  bot-username: ${TG_BOT_USERNAME:goodfirstissue_bot}
+  bot-username: ${TG_BOT_USERNAME:dev_goodfirstissue_bot}
   bot-token: ${TG_BOT_TOKEN:}
   my-id: ${TG_MY_ID:}

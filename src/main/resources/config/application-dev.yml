@@ -1,18 +1,14 @@
 spring:
   datasource:
-#    driver-class-name: org.postgresql.Driver
-#    url: jdbc:postgresql://localhost:5432/goodfirstissue-bot
-#    username: postgres
-#    password: admin
     driver-class-name: org.h2.Driver
     url: jdbc:h2:./goodfirstissue-bot
     username: sa
 
-    h2:
-      console:
-        enabled: true
-        path: /h2console/
-        web-allow-others: true
+  h2:
+    console:
+      enabled: true
+      path: /h2console/
+      web-allow-others: true
 
   jpa:
     show-sql: false
@@ -24,16 +20,8 @@ spring:
         use_sql_comments: true
         format_sql: true
 
-  thymeleaf:
-    cache: false
-
   liquibase:
     contexts: dev
-
-  mvc:
-    hiddenmethod:
-      filter:
-        enabled: true
 
 logging:
   level:

@@ -24,9 +24,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.kohsuke.github.GHIssue;
 import org.kohsuke.github.GHRepository;
 
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -43,13 +46,26 @@ import static agsamkin.code.model.job.JobType.UPLOAD_REPOS;
 @RequiredArgsConstructor
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
+    private final DataSource dataSource;
     private final LanguageService languageService;
     private final GitHubService gitHubService;
     private final GitHubUtil gitHubUtil;
     private final RepoService repoService;
+    private final IssueService issueService;
     private final JobService jobService;
 
-    private final IssueService issueService;
+    @Async
+    @Override
+    public void initBot() {
+        if (languageService.getAllLanguages().isEmpty()) {
+            languageService.updateLanguages();
+
+            ResourceDatabasePopulator resourceDatabasePopulator
+                    = new ResourceDatabasePopulator(false, false,
+                    "UTF-8", new ClassPathResource("sql/set_languages.sql"));
+            resourceDatabasePopulator.execute(dataSource);
+        }
+    }
 
     @Async
     @Override

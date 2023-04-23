@@ -1,0 +1,37 @@
+spring:
+  datasource:
+    url: jdbc:h2:./goodfirstissue-bot
+    username: sa
+    password: admin
+    driver-class-name: org.h2.Driver
+
+    h2:
+      console:
+        enabled: true
+        path: /h2console/
+        web-allow-others: true
+
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        generate_statistics: true
+        use_sql_comments: true
+        format_sql: true
+
+  thymeleaf:
+    cache: false
+
+  liquibase:
+    contexts: dev
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+logging:
+  level:
+    root: INFO

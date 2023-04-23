@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### H2 DB ###
+/goodfirstissue-bot.mv.db
+/goodfirstissue-bot.trace.db

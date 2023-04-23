@@ -7,10 +7,10 @@ import lombok.Getter;
 @Getter
 public enum BotCommand {
     START("/start", "start bot", false),
-    SETUP_MY_LANGUAGES("/setmylang", "setup own languages", true),
+    SETUP_MY_LANGUAGES("/setmylang", "set up your preferable languages", true),
     REPOS("/repos", "get repositories", true),
     ISSUES("/issues", "get issues", true),
-    SETTINGS("/settings", "show settings", true),
+    SETTINGS("/settings", "show set up settings", true),
     HELP("/help", "show help", true);
 
     private final String name;

@@ -27,20 +27,20 @@ public class SendMessageUtil {
     public static final String COMMENT_EMOJI = "\uD83D\uDCAC";
 
     public static final String GREETING_MESSAGE =
-            "I can help you find good first issues to get you started contributing to open source."
+            "I can help you in finding some good first issues and in contributing to the open source community."
                     + StringUtils.repeat(LINE_BREAK, 2)
-                    + "You can control me by sending these commands:"
+                    + "You can manage me by sending these commands:"
                     + StringUtils.repeat(LINE_BREAK, 2);
 
     public static final String SETTINGS_MESSAGE = SETTING_EMOJI + " Settings";
-    public static final String SETUP_MY_LANGUAGES_MESSAGE = "Set languages from the list below";
+    public static final String SETUP_MY_LANGUAGES_MESSAGE = "Set up languages from the list below";
     public static final String REPOS_MESSAGE = "Repositories with good-first-issue label:";
     public static final String ISSUES_MESSAGE = "Issues with good-first-issue label:";
 
     public static final String REPO_SORT_COMMAND_TEXT = "Sort repositories:";
-    public static final String REPO_ORDER_COMMAND_TEXT  = "Sort order repositories:";
+    public static final String REPO_ORDER_COMMAND_TEXT  = "Sort order of the repositories:";
     public static final String ISSUE_SORT_COMMAND_TEXT  = "Sort issues:";
-    public static final String ISSUE_ORDER_COMMAND_TEXT  = "Sort order issues:";
+    public static final String ISSUE_ORDER_COMMAND_TEXT  = "Sort order of the issues:";
     public static final String UNSUPPORTED_COMMAND_TEXT = "Unsupported command";
 
     public static final String MARK_DOWN_INLINE_STALE_LINK_TEMPLATE = "[%s](%s)";

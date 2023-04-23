@@ -150,7 +150,7 @@ public class GitHubUtil {
         } else if (rateLimitTarget == INTEGRATION_MANIFEST) {
             ghRateLimitRecord = ghRateLimit.getIntegrationManifest();
         } else {
-            throw new GHRateLimitNotFoundException("Rate limit not found");
+            throw new GHRateLimitNotFoundException("Rate limit is not found");
         }
         return ghRateLimitRecord;
     }

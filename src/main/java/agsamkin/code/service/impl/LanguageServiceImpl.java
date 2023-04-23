@@ -55,6 +55,6 @@ public class LanguageServiceImpl implements LanguageService {
     @Override
     public Language getLanguageByName(String name) {
         return languageRepository.findByNameIgnoreCase(name)
-                .orElseThrow(() -> new LanguageNotFoundException("Language not found"));
+                .orElseThrow(() -> new LanguageNotFoundException("Language is not found"));
     }
 }

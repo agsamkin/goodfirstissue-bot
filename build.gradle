@@ -42,6 +42,7 @@ dependencies {
 
 	compileOnly 'org.projectlombok:lombok:1.18.24'
 
+	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.postgresql:postgresql'
 
 	annotationProcessor 'org.projectlombok:lombok:1.18.24'
@@ -83,6 +84,28 @@ jacocoTestReport {
 	dependsOn test // tests are required to run before generating the report
 }
 
+//liquibase {
+//	activities {
+//		main {
+//			// Указываем путь, по которому будет сгенерирован файл миграции
+//			changeLogFile 'src/main/resources/db/changelog/changelog-master.xml'
+//			// Указывем источник, с которым будут сравниваться изменения
+//			// Это база данных, изначально она пустая
+//			url 'jdbc:postgresql://localhost:5432/goodfirstissue-bot'
+//			// Имя пользователя и пароль для подключения к базе
+//			username 'postgres'
+//			password 'admin'
+//			// Сравниваем с моделями, задавая пакет
+//			referenceUrl 'hibernate:spring:agsamkin.code.model.' +
+//					// Указываем диалект
+//					'?dialect=org.hibernate.dialect.PostgreSQL10Dialect' +
+//					// Указываем правила именования таблиц и столбцов,
+//					// чтобы они соответствовали правилам Spring
+//					'&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy'
+//		}
+//	}
+//}
+
 liquibase {
 	activities {
 		main {
@@ -90,14 +113,14 @@ liquibase {
 			changeLogFile 'src/main/resources/db/changelog/changelog-master.xml'
 			// Указывем источник, с которым будут сравниваться изменения
 			// Это база данных, изначально она пустая
-			url 'jdbc:postgresql://localhost:5432/goodfirstissue-bot'
+			url 'jdbc:h2:./goodfirstissue-bot'
 			// Имя пользователя и пароль для подключения к базе
-			username 'postgres'
+			username 'sa'
 			password 'admin'
 			// Сравниваем с моделями, задавая пакет
-			referenceUrl 'hibernate:spring:agsamkin.code.model.' +
+			referenceUrl 'hibernate:spring:hexlet.code.model.' +
 					// Указываем диалект
-					'?dialect=org.hibernate.dialect.PostgreSQL10Dialect' +
+					'?dialect=org.hibernate.dialect.H2Dialect' +
 					// Указываем правила именования таблиц и столбцов,
 					// чтобы они соответствовали правилам Spring
 					'&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy'

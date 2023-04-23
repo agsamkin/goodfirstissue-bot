@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.FileNotFoundException;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
@@ -50,7 +49,7 @@ public class GitHubUtil {
     public static final int NUMBER_OF_MONTHS_TO_UPDATE_ISSUE = 3;
 
     public static final double MIN_PERCENT_LANGUAGE_USAGE_IN_REPO = 70;
-    public static final double _100_PERCENT = 100;
+    public static final double ONE_HUNDRED_PERCENT = 100;
 
     public static final int MIN_REMAINING_NUMBER_OF_REQUEST = 1;
 
@@ -80,7 +79,7 @@ public class GitHubUtil {
         }
 
         if (repoLanguages.size() == 1) {
-            return _100_PERCENT;
+            return ONE_HUNDRED_PERCENT;
         }
 
         Long bytesThatLanguage = repoLanguages.get(language.getName());
@@ -89,7 +88,7 @@ public class GitHubUtil {
             return 0;
         }
 
-        return bytesThatLanguage * _100_PERCENT / totalBytes;
+        return bytesThatLanguage * ONE_HUNDRED_PERCENT / totalBytes;
     }
 
     public boolean isActiveRepo(GHRepository ghRepo) {

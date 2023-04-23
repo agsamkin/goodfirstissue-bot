@@ -31,8 +31,8 @@ public class RepoServiceImpl implements RepoService {
     @Override
     public List<Repo> getReposToUpdateByLanguage(Language language) {
         return repoRepository.findAllReposToUpdateByLanguage(
-                language.getId(), gitHubUtil.getLastDateUpdatedRepoFilter()
-                , MAX_NUMBER_OF_REPOS_IN_QUERY_RESULT);
+                language.getId(), gitHubUtil.getLastDateUpdatedRepoFilter(),
+                MAX_NUMBER_OF_REPOS_IN_QUERY_RESULT);
     }
 
     @Transactional(readOnly = true)
@@ -48,7 +48,7 @@ public class RepoServiceImpl implements RepoService {
         List<Repo> repos = repoRepository.findAllByLanguageInAndUpdatedAtGreaterThanEqual(
                 languages, gitHubUtil.getReposDeletionDate(), of);
 
-        int reposCountPrevPage = of.getPageNumber() * of.getPageSize() ;
+        int reposCountPrevPage = of.getPageNumber() * of.getPageSize();
         int reposCountCurrentPage = reposCountPrevPage + repos.size();
         if (reposCountCurrentPage > MAX_NUMBER_OF_REPOS_IN_QUERY_RESULT) {
             List<Repo> limitedRepos = new ArrayList<>();

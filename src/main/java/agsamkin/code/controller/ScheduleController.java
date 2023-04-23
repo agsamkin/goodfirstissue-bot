@@ -12,22 +12,22 @@ import org.springframework.stereotype.Controller;
 @RequiredArgsConstructor
 @Controller
 public class ScheduleController {
-    private static final int _1_MIN = 60000;
-    private static final int _1_HOUR = 3600000;
+    private static final int ONE_MIN = 60000;
+    private static final int ONE_HOUR = 3600000;
 
     private final ScheduleService scheduleService;
 
-    @Scheduled(initialDelay = _1_MIN * 5, fixedDelay = _1_HOUR * 4)
+    @Scheduled(initialDelay = ONE_MIN * 5, fixedDelay = ONE_HOUR * 4)
     public void uploadRepos() {
         scheduleService.uploadRepos();
     }
 
-    @Scheduled(initialDelay = _1_HOUR, fixedDelay = _1_HOUR * 2)
+    @Scheduled(initialDelay = ONE_HOUR, fixedDelay = ONE_HOUR * 2)
     public void updateRepos() {
         scheduleService.updateRepos();
     }
 
-    @Scheduled(initialDelay = _1_HOUR * 12, fixedDelay = _1_HOUR * 12)
+    @Scheduled(initialDelay = ONE_HOUR * 12, fixedDelay = ONE_HOUR * 12)
     public void deleteRepos() {
         scheduleService.deleteRepos();
     }

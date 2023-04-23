@@ -25,10 +25,10 @@ public class IssueServiceImpl implements IssueService {
     @Transactional(readOnly = true)
     @Override
     public List<Issue> getAllIssuesByRepo(Repo repo) {
-        return issueRepository.findAllByRepoAndUpdatedAtGreaterThanEqual(repo
-                , gitHubUtil.getLastDateUpdatedIssueFilter()
-                , PageRequest.of(0, MAX_NUMBER_OF_ISSUES_IN_QUERY_RESULT
-                        , Sort.by(Sort.Direction.DESC, "repo_stargazersCount")));
+        return issueRepository.findAllByRepoAndUpdatedAtGreaterThanEqual(repo,
+                gitHubUtil.getLastDateUpdatedIssueFilter(),
+                PageRequest.of(0, MAX_NUMBER_OF_ISSUES_IN_QUERY_RESULT,
+                        Sort.by(Sort.Direction.DESC, "repo_stargazersCount")));
     }
 
     @Transactional(readOnly = true)

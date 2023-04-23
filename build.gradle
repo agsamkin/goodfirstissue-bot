@@ -1,8 +1,15 @@
 plugins {
 	id 'java'
 	id 'application'
+
+	// Linter
+	id 'checkstyle'
+	// Code Coverage
+	id 'jacoco'
+
 	id 'org.springframework.boot' version '2.7.9'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+
 	id 'org.liquibase.gradle' version '2.0.4'
 }
 
@@ -64,6 +71,16 @@ application {
 
 diffChangeLog {
 	dependsOn compileJava
+}
+
+jacocoTestReport {
+	reports {
+		xml.required = true
+	}
+}
+
+jacocoTestReport {
+	dependsOn test // tests are required to run before generating the report
 }
 
 liquibase {

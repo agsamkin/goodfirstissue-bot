@@ -92,7 +92,8 @@ public class GitHubServiceImpl implements GitHubService {
     }
 
     @Override
-    public Map<String, Long> getRepoLanguages(GHRepository ghRepo) throws GHRepoLanguagesGettingException, GHRateLimitException {
+    public Map<String, Long> getRepoLanguages(GHRepository ghRepo)
+            throws GHRepoLanguagesGettingException, GHRateLimitException {
         checkRateLimit(CORE);
         try {
             return ghRepo.listLanguages();
@@ -112,7 +113,8 @@ public class GitHubServiceImpl implements GitHubService {
     }
 
     @Override
-    public List<GHRepository> getReposByLanguage(Language language, Date updatedFrom) throws GHRateLimitException {
+    public List<GHRepository> getReposByLanguage(Language language, Date updatedFrom)
+            throws GHRateLimitException {
         checkRateLimit(SEARCH);
         return gitHub.searchRepositories()
                 .visibility(GHRepository.Visibility.PUBLIC)
@@ -128,13 +130,15 @@ public class GitHubServiceImpl implements GitHubService {
     }
 
     @Override
-    public List<GHRepository> getReposByLanguage(Language language) throws GHRateLimitException {
+    public List<GHRepository> getReposByLanguage(Language language)
+            throws GHRateLimitException {
         checkRateLimit(SEARCH);
         return getReposByLanguage(language, gitHubUtil.getLastDateUpdatedRepoFilter());
     }
 
     @Override
-    public GHIssue getIssueFromRepoByNumber(GHRepository ghRepo, Integer number) throws GHIssueGettingException, GHRateLimitException {
+    public GHIssue getIssueFromRepoByNumber(GHRepository ghRepo, Integer number)
+            throws GHIssueGettingException, GHRateLimitException {
         checkRateLimit(CORE);
         try {
             return ghRepo.getIssue(number);
@@ -144,7 +148,8 @@ public class GitHubServiceImpl implements GitHubService {
     }
 
     @Override
-    public List<GHIssue> getIssuesByRepo(GHRepository ghRepo, Date since) throws GHRateLimitException {
+    public List<GHIssue> getIssuesByRepo(GHRepository ghRepo, Date since)
+            throws GHRateLimitException {
         checkRateLimit(CORE);
         return ghRepo.queryIssues()
                 .state(GHIssueState.OPEN)

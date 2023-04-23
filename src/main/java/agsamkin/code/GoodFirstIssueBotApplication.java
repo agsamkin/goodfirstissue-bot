@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableAsync
 @SpringBootApplication
 public class GoodFirstIssueBotApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(GoodFirstIssueBotApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(GoodFirstIssueBotApplication.class, args);
+    }
 }

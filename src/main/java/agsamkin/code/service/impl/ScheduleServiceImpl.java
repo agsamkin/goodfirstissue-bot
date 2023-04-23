@@ -70,14 +70,11 @@ public class ScheduleServiceImpl implements ScheduleService {
                 continue;
             }
 
-            log.info(language.getName());
-
             List<GHRepository> ghRepos;
             try {
                 ghRepos = gitHubService.getReposByLanguage(language);
             } catch (GHRateLimitException e) {
                 receivedRateLimitException = true;
-                log.info(e.getMessage());
                 break;
             }
 
@@ -95,7 +92,6 @@ public class ScheduleServiceImpl implements ScheduleService {
                     repoLanguages = gitHubService.getRepoLanguages(ghRepo);
                 } catch (GHRateLimitException e) {
                     receivedRateLimitException = true;
-                    log.info(e.getMessage());
                     break;
                 } catch (GHRepoLanguagesGettingException e) {
                     log.error(e.getMessage());
@@ -111,7 +107,6 @@ public class ScheduleServiceImpl implements ScheduleService {
                     ghIssues = gitHubService.getIssuesByRepo(ghRepo);
                 } catch (GHRateLimitException e) {
                     receivedRateLimitException = true;
-                    log.info(e.getMessage());
                     break;
                 }
 
@@ -215,8 +210,6 @@ public class ScheduleServiceImpl implements ScheduleService {
                 continue;
             }
 
-            log.info(language.getName());
-
             List<Repo> existingRepos = repoService.getReposToUpdateByLanguage(language);
 
             for (Repo existingRepo : existingRepos) {
@@ -229,7 +222,6 @@ public class ScheduleServiceImpl implements ScheduleService {
                     ghRepo = gitHubService.getRepoByRepoId(existingRepo.getRepoId());
                 } catch (GHRateLimitException e) {
                     receivedRateLimitException = true;
-                    log.info(e.getMessage());
                     break;
                 } catch (GHRepoGettingException e) {
                     log.error(e.getMessage());
@@ -249,7 +241,6 @@ public class ScheduleServiceImpl implements ScheduleService {
                     repoLanguages = gitHubService.getRepoLanguages(ghRepo);
                 } catch (GHRateLimitException e) {
                     receivedRateLimitException = true;
-                    log.info(e.getMessage());
                     break;
                 } catch (GHRepoLanguagesGettingException e) {
                     log.error(e.getMessage());
@@ -280,7 +271,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                     existingRepo.setCreatedAt(ghRepo.getCreatedAt());
                     existingRepo.setUpdatedAt(ghRepo.getUpdatedAt());
                 } catch (IOException e) {
-                    log.error(String.valueOf(e));;
+                    log.error(String.valueOf(e));
                 }
 
                 List<Issue> existingIssues = issueService.getAllIssuesByRepo(existingRepo);
@@ -300,7 +291,6 @@ public class ScheduleServiceImpl implements ScheduleService {
                         ghIssue = gitHubService.getIssueFromRepoByNumber(ghRepo, existingIssue.getNumber());
                     } catch (GHRateLimitException e) {
                         receivedRateLimitException = true;
-                        log.info(e.getMessage());
                         break;
                     } catch (GHIssueGettingException e) {
                         log.error(e.getMessage());
@@ -329,7 +319,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                         existingIssue.setCreatedAt(ghIssue.getCreatedAt());
                         existingIssue.setUpdatedAt(ghIssue.getUpdatedAt());
                     } catch (IOException e) {
-                        log.error(String.valueOf(e));;
+                        log.error(String.valueOf(e));
                     }
 
                     newIssues.put(existingIssue.getIssueId(), existingIssue);

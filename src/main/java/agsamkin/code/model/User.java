@@ -27,7 +27,6 @@ import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.TemporalType.TIMESTAMP;
 
-//@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -36,7 +35,6 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 @Entity
 @Table(name = "users")
 public class User {
-//    @EqualsAndHashCode.Include
     @Id
     @Column(name = "user_id")
     private Long userId;
@@ -69,7 +67,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "language_id")
     )
-    List<Language> languages;
+    private List<Language> languages;
 
     @OneToOne(mappedBy = "user", cascade = ALL)
     private Setting setting;

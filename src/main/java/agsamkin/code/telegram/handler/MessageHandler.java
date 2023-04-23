@@ -7,7 +7,6 @@ import agsamkin.code.model.setting.RepoOrder;
 import agsamkin.code.model.setting.RepoSort;
 import agsamkin.code.model.setting.Setting;
 import agsamkin.code.service.SendMessageService;
-import agsamkin.code.service.impl.SendMessageServiceImpl;
 import agsamkin.code.service.UserService;
 import agsamkin.code.telegram.BotCommand;
 import agsamkin.code.telegram.TgBot;
@@ -45,7 +44,6 @@ public class MessageHandler {
                     .issueSort(IssueSort.UPDATED)
                     .issueOrder(IssueOrder.DESC).build();
             user.setSetting(setting);
-            
             userService.registerUser(user);
 
             tgBot.sendMessage(sendMessageService.getGreetingMessage(chatId));

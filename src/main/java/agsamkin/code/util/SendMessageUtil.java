@@ -4,7 +4,12 @@ import agsamkin.code.model.Issue;
 import agsamkin.code.model.Repo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
+import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -57,6 +62,25 @@ public class SendMessageUtil {
         return sendMessage;
     }
 
+    public EditMessageText getEditMessageText(
+            Message message, String text, InlineKeyboardMarkup replyMarkup) {
+        return EditMessageText.builder()
+                .chatId(message.getChatId())
+                .messageId(message.getMessageId())
+                .text(text)
+                .disableWebPagePreview(true)
+                .parseMode(ParseMode.MARKDOWN)
+                .replyMarkup(replyMarkup).build();
+    }
+
+    public EditMessageReplyMarkup getEditMessageReplyMarkup(
+            Message message, InlineKeyboardMarkup replyMarkup) {
+        return EditMessageReplyMarkup.builder()
+                .chatId(message.getChatId())
+                .messageId(message.getMessageId())
+                .replyMarkup(replyMarkup).build();
+    }
+
     public String getMarkDownTextForReposMessage(List<Repo> repos) {
         StringBuilder sb = new StringBuilder(REPOS_MESSAGE);
         for (Repo repo : repos) {
@@ -75,8 +99,8 @@ public class SendMessageUtil {
         for (Issue issue : issues) {
             sb.append(LINE_BREAK);
             sb.append(getMarkDownInlineStileLink(
-                    issue.getRepo().getFullName() + ISSUES_PATH_OF_URL + issue.getNumber()
-                    , issue.getHtmlUrl()));
+                    issue.getRepo().getFullName() + ISSUES_PATH_OF_URL + issue.getNumber(),
+                    issue.getHtmlUrl()));
             sb.append(LINE_BREAK);
             sb.append(COMMENT_EMOJI).append(WHITESPACE).append(issue.getCommentsCount()).append(WHITESPACE);
             sb.append(UPDATED_EMOJI).append(WHITESPACE).append(formatter.format(issue.getUpdatedAt()));

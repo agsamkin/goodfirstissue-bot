@@ -85,9 +85,13 @@ public class SendMessageServiceImpl implements SendMessageService {
         Setting setting = user.getSetting();
 
         List<Repo> repos = repoService.getAllReposByLanguages(
-                userService.getUserLanguages(userId)
-                , PageRequest.of(REPOS_PAGE_DEFAULT, REPOS_PAGE_SIZE_DEFAULT
-                        , Sort.by(setting.getRepoOrder().getDirection(), setting.getRepoSort().getSortProperty())));
+                userService.getUserLanguages(userId),
+                PageRequest.of(REPOS_PAGE_DEFAULT, REPOS_PAGE_SIZE_DEFAULT,
+                        Sort.by(setting.getRepoOrder().getDirection(),
+                                setting.getRepoSort().getSortProperty()
+                        )
+                )
+        );
 
         SendMessage sendMessage = sendMessageUtil.getSimpleMessage(
                 chatId, sendMessageUtil.getMarkDownTextForReposMessage(repos));
@@ -110,8 +114,12 @@ public class SendMessageServiceImpl implements SendMessageService {
                 userService.getUserLanguages(userId), PageRequest.of(0, MAX_NUMBER_OF_REPOS_IN_QUERY_RESULT));
 
         List<Issue> issues = issueService.getAllIssuesByRepos(repos,
-                PageRequest.of(ISSUES_PAGE_DEFAULT, ISSUES_PAGE_SIZE_DEFAULT
-                        , Sort.by(setting.getIssueOrder().getDirection(), setting.getIssueSort().getSortProperty())));
+                PageRequest.of(ISSUES_PAGE_DEFAULT, ISSUES_PAGE_SIZE_DEFAULT,
+                        Sort.by(setting.getIssueOrder().getDirection(),
+                                setting.getIssueSort().getSortProperty()
+                        )
+                )
+        );
 
         SendMessage sendMessage = sendMessageUtil.getSimpleMessage(
                 chatId, sendMessageUtil.getMarkDownTextForIssuesMessage(issues));

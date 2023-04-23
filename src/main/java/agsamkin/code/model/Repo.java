@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.commons.lang3.time.DateUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,17 +18,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.TemporalType.TIMESTAMP;
 
-//@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -38,7 +34,6 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 @Entity
 @Table(name = "repos")
 public class Repo {
-//    @EqualsAndHashCode.Include
     @Id
     @Column(name = "repo_id")
     private Long repoId;

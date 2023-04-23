@@ -1,7 +1,6 @@
 package agsamkin.code.telegram.handler;
 
 import agsamkin.code.model.Issue;
-import agsamkin.code.model.Language;
 import agsamkin.code.model.Repo;
 import agsamkin.code.model.User;
 import agsamkin.code.model.setting.IssueOrder;
@@ -10,7 +9,6 @@ import agsamkin.code.model.setting.RepoOrder;
 import agsamkin.code.model.setting.RepoSort;
 import agsamkin.code.model.setting.Setting;
 import agsamkin.code.service.ButtonsService;
-import agsamkin.code.service.impl.ButtonsServiceImpl;
 import agsamkin.code.service.IssueService;
 import agsamkin.code.service.LanguageService;
 import agsamkin.code.service.RepoService;
@@ -24,7 +22,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
-import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
@@ -84,22 +81,18 @@ public class CallbackQueryHandler {
         }
 
         if (SET_LANGUAGE_ACTION.equals(action)) {
-            Language language = languageService.getLanguageByName(value);
-            userService.setLanguage(userId, language);
+            userService.setLanguage(userId, languageService.getLanguageByName(value));
 
-            EditMessageReplyMarkup editMessage = EditMessageReplyMarkup.builder()
-                    .chatId(message.getChatId())
-                    .messageId(message.getMessageId())
-                    .replyMarkup(buttonsService.getSetupMyLanguageButtons(userId)).build();
+            EditMessageReplyMarkup editMessage =
+                    sendMessageUtil.getEditMessageReplyMarkup(message,
+                            buttonsService.getSetupMyLanguageButtons(userId));
             tgBot.sendMessage(editMessage);
         } else if (REMOVE_LANGUAGE_ACTION.equals(action)) {
-            Language language = languageService.getLanguageByName(value);
-            userService.removeLanguage(userId, language);
+            userService.removeLanguage(userId, languageService.getLanguageByName(value));
 
-            EditMessageReplyMarkup editMessage = EditMessageReplyMarkup.builder()
-                    .chatId(message.getChatId())
-                    .messageId(message.getMessageId())
-                    .replyMarkup(buttonsService.getSetupMyLanguageButtons(userId)).build();
+            EditMessageReplyMarkup editMessage =
+                    sendMessageUtil.getEditMessageReplyMarkup(message,
+                            buttonsService.getSetupMyLanguageButtons(userId));
             tgBot.sendMessage(editMessage);
         } else if (REPO_NEXT_PAGE_ACTION.equals(action)
                 || REPO_PREV_PAGE_ACTION.equals(action)) {
@@ -110,29 +103,25 @@ public class CallbackQueryHandler {
             Setting setting = user.getSetting();
 
             List<Repo> repos = repoService.getAllReposByLanguages(
-                    userService.getUserLanguages(userId)
-                    , PageRequest.of(page, REPOS_PAGE_SIZE_DEFAULT
-                            , Sort.by(setting.getRepoOrder().getDirection(), setting.getRepoSort().getSortProperty())));
+                    userService.getUserLanguages(userId),
+                    PageRequest.of(page, REPOS_PAGE_SIZE_DEFAULT,
+                            Sort.by(setting.getRepoOrder().getDirection(),
+                                    setting.getRepoSort().getSortProperty()
+                            )
+                    )
+            );
 
-            EditMessageText editMessage = EditMessageText.builder()
-                    .chatId(message.getChatId())
-                    .messageId(message.getMessageId())
-                    .text(sendMessageUtil.getMarkDownTextForReposMessage(repos))
-                    .disableWebPagePreview(true)
-                    .parseMode(ParseMode.MARKDOWN)
-                    .replyMarkup(buttonsService.getReposButtons(
-                            page, REPOS_PAGE_SIZE_DEFAULT, repos.size() < REPOS_PAGE_SIZE_DEFAULT)
-                    ).build();
-
+            EditMessageText editMessage = sendMessageUtil.getEditMessageText(
+                    message, sendMessageUtil.getMarkDownTextForReposMessage(repos),
+                    buttonsService.getReposButtons(page, REPOS_PAGE_SIZE_DEFAULT,
+                            repos.size() < REPOS_PAGE_SIZE_DEFAULT));
             tgBot.sendMessage(editMessage);
         } else if (REPO_SORT_ACTION.equals(action)) {
             User user = userService.getUserByUserId(userId);
 
-            EditMessageText editMessage = EditMessageText.builder()
-                    .chatId(message.getChatId())
-                    .messageId(message.getMessageId())
-                    .text(REPO_SORT_COMMAND_TEXT)
-                    .replyMarkup(buttonsService.getRepoSortButtons(user.getSetting())).build();
+            EditMessageText editMessage = sendMessageUtil.getEditMessageText(
+                    message, REPO_SORT_COMMAND_TEXT,
+                    buttonsService.getRepoSortButtons(user.getSetting()));
             tgBot.sendMessage(editMessage);
         } else if (REPO_SORT_OPTIONS_ACTION.equals(action)) {
             User user = userService.getUserByUserId(userId);
@@ -141,20 +130,14 @@ public class CallbackQueryHandler {
             user.setSetting(setting);
             userService.saveUser(user);
 
-            EditMessageText editMessage = EditMessageText.builder()
-                    .chatId(message.getChatId())
-                    .messageId(message.getMessageId())
-                    .text(REPO_SORT_COMMAND_TEXT)
-                    .replyMarkup(buttonsService.getRepoSortButtons(setting)).build();
+            EditMessageText editMessage = sendMessageUtil.getEditMessageText(
+                    message, REPO_SORT_COMMAND_TEXT, buttonsService.getRepoSortButtons(setting));
             tgBot.sendMessage(editMessage);
         } else if (REPO_ORDER_ACTION.equals(action)) {
             User user = userService.getUserByUserId(userId);
 
-            EditMessageText editMessage = EditMessageText.builder()
-                    .chatId(message.getChatId())
-                    .messageId(message.getMessageId())
-                    .text(REPO_ORDER_COMMAND_TEXT)
-                    .replyMarkup(buttonsService.getRepoSortOrderButtons(user.getSetting())).build();
+            EditMessageText editMessage = sendMessageUtil.getEditMessageText(
+                    message, REPO_ORDER_COMMAND_TEXT, buttonsService.getRepoSortOrderButtons(user.getSetting()));
             tgBot.sendMessage(editMessage);
         } else if (REPO_ORDER_OPTIONS_ACTION.equals(action)) {
             User user = userService.getUserByUserId(userId);
@@ -163,11 +146,8 @@ public class CallbackQueryHandler {
             user.setSetting(setting);
             userService.saveUser(user);
 
-            EditMessageText editMessage = EditMessageText.builder()
-                    .chatId(message.getChatId())
-                    .messageId(message.getMessageId())
-                    .text(REPO_ORDER_COMMAND_TEXT)
-                    .replyMarkup(buttonsService.getRepoSortOrderButtons(setting)).build();
+            EditMessageText editMessage = sendMessageUtil.getEditMessageText(
+                    message, REPO_ORDER_COMMAND_TEXT, buttonsService.getRepoSortOrderButtons(setting));
             tgBot.sendMessage(editMessage);
         } else if (ISSUE_NEXT_PAGE_ACTION.equals(action)
                 || ISSUE_PREV_PAGE_ACTION.equals(action)) {
@@ -178,32 +158,28 @@ public class CallbackQueryHandler {
             Setting setting = user.getSetting();
 
             List<Repo> repos = repoService.getAllReposByLanguages(
-                    userService.getUserLanguages(userId)
-                    , PageRequest.of(0, MAX_NUMBER_OF_REPOS_IN_QUERY_RESULT));
+                    userService.getUserLanguages(userId),
+                    PageRequest.of(0, MAX_NUMBER_OF_REPOS_IN_QUERY_RESULT)
+            );
 
             List<Issue> issues = issueService.getAllIssuesByRepos(repos,
-                    PageRequest.of(page, ISSUES_PAGE_SIZE_DEFAULT
-                            , Sort.by(setting.getIssueOrder().getDirection(), setting.getIssueSort().getSortProperty())));
+                    PageRequest.of(page, ISSUES_PAGE_SIZE_DEFAULT,
+                            Sort.by(setting.getIssueOrder().getDirection(),
+                                    setting.getIssueSort().getSortProperty()
+                            )
+                    )
+            );
 
-            EditMessageText editMessage = EditMessageText.builder()
-                    .chatId(message.getChatId())
-                    .messageId(message.getMessageId())
-                    .text(sendMessageUtil.getMarkDownTextForIssuesMessage(issues))
-                    .disableWebPagePreview(true)
-                    .parseMode(ParseMode.MARKDOWN)
-                    .replyMarkup(buttonsService.getIssuesButtons(
-                            page, ISSUES_PAGE_SIZE_DEFAULT, issues.size() < ISSUES_PAGE_SIZE_DEFAULT)
-                    ).build();
-
+            EditMessageText editMessage = sendMessageUtil.getEditMessageText(
+                    message, sendMessageUtil.getMarkDownTextForIssuesMessage(issues),
+                    buttonsService.getIssuesButtons(page, ISSUES_PAGE_SIZE_DEFAULT,
+                            issues.size() < ISSUES_PAGE_SIZE_DEFAULT));
             tgBot.sendMessage(editMessage);
         } else if (ISSUE_SORT_ACTION.equals(action)) {
             User user = userService.getUserByUserId(userId);
 
-            EditMessageText editMessage = EditMessageText.builder()
-                    .chatId(message.getChatId())
-                    .messageId(message.getMessageId())
-                    .text(ISSUE_SORT_COMMAND_TEXT)
-                    .replyMarkup(buttonsService.getIssueSortButtons(user.getSetting())).build();
+            EditMessageText editMessage = sendMessageUtil.getEditMessageText(
+                    message, ISSUE_SORT_COMMAND_TEXT, buttonsService.getIssueSortButtons(user.getSetting()));
             tgBot.sendMessage(editMessage);
         } else if (ISSUE_SORT_OPTIONS_ACTION.equals(action)) {
             User user = userService.getUserByUserId(userId);
@@ -212,20 +188,14 @@ public class CallbackQueryHandler {
             user.setSetting(setting);
             userService.saveUser(user);
 
-            EditMessageText editMessage = EditMessageText.builder()
-                    .chatId(message.getChatId())
-                    .messageId(message.getMessageId())
-                    .text(ISSUE_SORT_COMMAND_TEXT)
-                    .replyMarkup(buttonsService.getIssueSortButtons(setting)).build();
+            EditMessageText editMessage = sendMessageUtil.getEditMessageText(
+                    message, ISSUE_SORT_COMMAND_TEXT, buttonsService.getIssueSortButtons(setting));
             tgBot.sendMessage(editMessage);
         } else if (ISSUE_ORDER_ACTION.equals(action)) {
             User user = userService.getUserByUserId(userId);
 
-            EditMessageText editMessage = EditMessageText.builder()
-                    .chatId(message.getChatId())
-                    .messageId(message.getMessageId())
-                    .text(ISSUE_ORDER_COMMAND_TEXT)
-                    .replyMarkup(buttonsService.getIssueSortOrderButtons(user.getSetting())).build();
+            EditMessageText editMessage = sendMessageUtil.getEditMessageText(
+                    message, ISSUE_ORDER_COMMAND_TEXT, buttonsService.getIssueSortOrderButtons(user.getSetting()));
             tgBot.sendMessage(editMessage);
         } else if (ISSUE_ORDER_OPTIONS_ACTION.equals(action)) {
             User user = userService.getUserByUserId(userId);
@@ -234,22 +204,16 @@ public class CallbackQueryHandler {
             user.setSetting(setting);
             userService.saveUser(user);
 
-            EditMessageText editMessage = EditMessageText.builder()
-                    .chatId(message.getChatId())
-                    .messageId(message.getMessageId())
-                    .text(ISSUE_ORDER_COMMAND_TEXT)
-                    .replyMarkup(buttonsService.getIssueSortOrderButtons(setting)).build();
+            EditMessageText editMessage = sendMessageUtil.getEditMessageText(
+                    message, ISSUE_ORDER_COMMAND_TEXT, buttonsService.getIssueSortOrderButtons(setting));
             tgBot.sendMessage(editMessage);
-
         } else if (SETTING_BACK_ACTION.equals(action)) {
             if (SETTING_ACTION.equals(value)) {
-                EditMessageText editMessage = EditMessageText.builder()
-                        .chatId(message.getChatId())
-                        .messageId(message.getMessageId())
-                        .text(SETTINGS_MESSAGE)
-                        .replyMarkup(buttonsService.getSettingsButtons()).build();
+                EditMessageText editMessage = sendMessageUtil.getEditMessageText(
+                        message, SETTINGS_MESSAGE, buttonsService.getSettingsButtons());
+
                 tgBot.sendMessage(editMessage);
-            };
+            }
         }
     }
 }

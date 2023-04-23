@@ -1,6 +1,5 @@
 package agsamkin.code.repository;
 
-import agsamkin.code.model.Issue;
 import agsamkin.code.model.User;
 import agsamkin.code.model.setting.Setting;
 import org.springframework.data.jpa.repository.JpaRepository;

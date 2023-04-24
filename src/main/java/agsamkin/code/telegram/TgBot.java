@@ -22,12 +22,16 @@ import org.telegram.telegrambots.starter.SpringWebhookBot;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Getter
 @Setter
 @Component
 public class TgBot extends SpringWebhookBot {
+    public static final int EMPTY_MESSAGE_ID = 0;
+    public static final String EMPTY_CHAT_ID = "0";
+
     private final TgBotConfig tgBotConfig;
 
     public TgBot(SetWebhook setWebhook, TgBotConfig tgBotConfig) {
@@ -65,7 +69,9 @@ public class TgBot extends SpringWebhookBot {
     }
 
     public void sendMessage(SendMessage sendMessage) {
-        if (sendMessage == null) {
+        if (sendMessage == null
+                || Objects.isNull(sendMessage.getChatId())
+                || sendMessage.getChatId().equals(EMPTY_CHAT_ID)) {
             return;
         }
         try {
@@ -76,7 +82,10 @@ public class TgBot extends SpringWebhookBot {
     }
 
     public void sendMessage(EditMessageReplyMarkup editMessageReplyMarkup) {
-        if (editMessageReplyMarkup == null) {
+        if (editMessageReplyMarkup == null
+                || editMessageReplyMarkup.getMessageId() == EMPTY_MESSAGE_ID
+                || Objects.isNull(editMessageReplyMarkup.getChatId())
+                || editMessageReplyMarkup.getChatId().equals(EMPTY_CHAT_ID)) {
             return;
         }
         try {
@@ -87,7 +96,10 @@ public class TgBot extends SpringWebhookBot {
     }
 
     public void sendMessage(EditMessageText editMessageText) {
-        if (editMessageText == null) {
+        if (editMessageText == null
+                || editMessageText.getMessageId() == EMPTY_MESSAGE_ID
+                || Objects.isNull(editMessageText.getChatId())
+                || editMessageText.getChatId().equals(EMPTY_CHAT_ID)) {
             return;
         }
         try {

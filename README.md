@@ -9,7 +9,7 @@
 
 The bot allows you to easily pick up your first good issues from popular open-source projects, and also helps you to make your first contributions as an open-source developer.
 
-### Installation and usage
+### Development
 
 Telegram:
 * Create new telegram bot with [@BotFather](https://t.me/BotFather)

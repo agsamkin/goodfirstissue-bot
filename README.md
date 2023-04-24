@@ -4,10 +4,10 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/3f81753ef428bf5a7464/maintainability)](https://codeclimate.com/github/agsamkin/goodfirstissue-bot/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/3f81753ef428bf5a7464/test_coverage)](https://codeclimate.com/github/agsamkin/goodfirstissue-bot/test_coverage)
 
-[@goodfirstissue_bot](https://t.me/goodfirstissue_bot) - telegram bot for search "good first issue" on GitHub.
+[@goodfirstissue_bot](https://t.me/goodfirstissue_bot) is a telegram bot that can help you in your "good first issue" search on GitHub.
 
 
-Good First Issue bot curates easy pickings from popular open-source projects, and helps you make your first contribution to open-source.
+The bot allows you to easily pick up your first good issues from popular open-source projects, and also helps you to make your first contributions as an open-source developer.
 
 ### Development
 
@@ -16,7 +16,7 @@ Telegram:
 * Set env TG_BOT_USERNAME, TG_BOT_TOKEN
 
 Webhooks:
-* Install [ngrok](https://ngrok.com/download) for Windows or [localtunnel](https://theboroer.github.io/localtunnel-www/) for Linux
+* Install [ngrok](https://ngrok.com/download) if you use Windows or [localtunnel](https://theboroer.github.io/localtunnel-www/) if you use Linux distributive
 * Get webhook with ngrok (or localtunnel)
 * Set webhook with: 
 ```

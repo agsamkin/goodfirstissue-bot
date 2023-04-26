@@ -30,7 +30,6 @@ import java.util.Set;
 
 @Component
 public class TestUtil {
-
     public static final int DEFAULT_UPDATE_ID = 0;
     public static final int DEFAULT_MESSAGE_ID = 0;
     public static final String DEFAULT_CALLBACK_QUERY_ID = "";

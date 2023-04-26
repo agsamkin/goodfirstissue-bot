@@ -1,7 +1,9 @@
 package agsamkin.code.telegram.handler;
 
 import agsamkin.code.rabbit.UpdateProducer;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;

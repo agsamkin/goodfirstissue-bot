@@ -1,10 +1,9 @@
-#server:
-#  port: 443
-#  ssl:
-#    key-store: mypkcs.p12
-#    key-store-password: password
-#    keyStoreType: PKCS12
-#    keyAlias: goodfirstissue_bot
+server:
+  port: 443
+  ssl:
+    certificate: cert1.pem
+    certificate-private-key: privkey1.key
+    key-store-password:
 
 logging:
   level:

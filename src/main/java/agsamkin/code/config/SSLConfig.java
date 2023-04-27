@@ -6,7 +6,7 @@ import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerF
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+//@Configuration
 public class SSLConfig {
     @Bean
     public ConfigurableServletWebServerFactory webServerFactory() throws Exception {

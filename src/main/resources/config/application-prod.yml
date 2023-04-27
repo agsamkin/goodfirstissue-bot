@@ -1,3 +1,11 @@
+server:
+  port: 443
+  ssl:
+    key-store: keystore.p12
+    key-store-password: springboot
+    keyStoreType: PKCS12
+    keyAlias: tomcat
+
 logging:
   level:
     ROOT: INFO

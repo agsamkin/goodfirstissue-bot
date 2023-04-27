@@ -1,10 +1,9 @@
 server:
 #  port: 443
   ssl:
-    enabled: true
-    key-store: mypem.pem
+    key-store: mypkcs.p12
     key-store-password: password
-    keyStoreType: PEMCFG
+    keyStoreType: PKCS12
     keyAlias: goodfirstissue_bot
 
 logging:

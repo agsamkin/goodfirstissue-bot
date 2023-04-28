@@ -16,7 +16,7 @@ public class SSLConfig {
         ssl.setCertificate("YOURPUBLIC.pem");
         ssl.setCertificatePrivateKey("YOURPRIVATE.key");
         ssl.setKeyStoreType("PKCS12");
-        ssl.setKeyStorePassword(""); // without this decrytption fails
+        ssl.setKeyStorePassword("");
         factory.setSsl(ssl);
         factory.setPort(443);
 

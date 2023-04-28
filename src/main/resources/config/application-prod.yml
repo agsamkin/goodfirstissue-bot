@@ -1,9 +1,9 @@
-server:
-  port: 443
-  ssl:
-    certificate: cert1.pem
-    certificate-private-key: privkey1.key
-    key-store-password:
+#server:
+#  port: 443
+#  ssl:
+#    certificate: cert1.pem
+#    certificate-private-key: privkey1.key
+#    key-store-password:
 
 logging:
   level:

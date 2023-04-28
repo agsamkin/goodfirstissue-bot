@@ -1,7 +1,7 @@
-server:
-  port: 443
-  ssl:
-    enabled: true
+#server:
+#  port: 443
+#  ssl:
+#    enabled: true
 #    certificate: cert1.pem
 #    certificate-private-key: privkey1.key
 #    key-store-password:

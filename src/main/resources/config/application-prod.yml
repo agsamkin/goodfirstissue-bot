@@ -1,13 +1,3 @@
-#security:
-#  require-ssl: true
-#server:
-#  port: 443
-#  ssl:
-#    key-store: destkeystore.p12
-#    key-store-password: password
-#    keyStoreType: PKCS12
-#    keyAlias: tomcat
-
 logging:
   level:
     ROOT: INFO

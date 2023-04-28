@@ -1,10 +1,10 @@
-#server:
-#  port: 443
-#  ssl:
-#    enabled: true
-#    certificate: cert1.pem
-#    certificate-private-key: privkey1.key
-#    key-store-password:
+server:
+  port: 443
+  ssl:
+    certificate: cert.pem
+    key-store-password: password
+    keyStoreType: PKCS12
+    keyAlias: tomcat
 
 logging:
   level:

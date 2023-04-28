@@ -16,8 +16,8 @@ public class SSLConfig {
 
         Ssl ssl = new Ssl();
         ssl.setEnabled(true);
-        ssl.setCertificate("public.pem");
-        ssl.setCertificatePrivateKey("private.key");
+        ssl.setCertificate("PUBLIC.pem");
+        ssl.setCertificatePrivateKey("PRIVATE.key");
         ssl.setKeyStoreType("PKCS12");
         ssl.setKeyStorePassword("");
 

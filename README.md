@@ -1,8 +1,10 @@
 # Good first issue bot
 
 [![build and test](https://github.com/agsamkin/goodfirstissue-bot/actions/workflows/build.yml/badge.svg)](https://github.com/agsamkin/goodfirstissue-bot/actions/workflows/build.yml)
-[![Maintainability](https://api.codeclimate.com/v1/badges/3f81753ef428bf5a7464/maintainability)](https://codeclimate.com/github/agsamkin/goodfirstissue-bot/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/3f81753ef428bf5a7464/test_coverage)](https://codeclimate.com/github/agsamkin/goodfirstissue-bot/test_coverage)
+
+[//]: # ([![Maintainability]&#40;https://api.codeclimate.com/v1/badges/3f81753ef428bf5a7464/maintainability&#41;]&#40;https://codeclimate.com/github/agsamkin/goodfirstissue-bot/maintainability&#41;)
+
+[//]: # ([![Test Coverage]&#40;https://api.codeclimate.com/v1/badges/3f81753ef428bf5a7464/test_coverage&#41;]&#40;https://codeclimate.com/github/agsamkin/goodfirstissue-bot/test_coverage&#41;)
 
 [@goodfirstissue_bot](https://t.me/goodfirstissue_bot) is a telegram bot that can help you in your "good first issue" search on GitHub.
 

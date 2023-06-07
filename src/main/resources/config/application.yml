@@ -1,6 +1,10 @@
 server:
   port: ${PORT:8080}
 
+org:
+  gradle:
+    daemon: false
+
 spring:
   application:
     name: goodFirstIssueBot

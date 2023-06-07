@@ -6,8 +6,7 @@
 
 [//]: # ([![Test Coverage]&#40;https://api.codeclimate.com/v1/badges/3f81753ef428bf5a7464/test_coverage&#41;]&#40;https://codeclimate.com/github/agsamkin/goodfirstissue-bot/test_coverage&#41;)
 
-[@goodfirstissue_bot](https://t.me/goodfirstissue_bot) is a telegram bot that can help you in your "good first issue" search on GitHub.
-
+[//]: # ([@goodfirstissue_bot]&#40;https://t.me/goodfirstissue_bot&#41; is a telegram bot that can help you in your "good first issue" search on GitHub.)
 
 The bot allows you to easily pick up your first good issues from popular open-source projects, and also helps you to make your first contributions as an open-source developer.
 

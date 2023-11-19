@@ -10,6 +10,24 @@
 
 The bot allows you to easily pick up your first good issues from popular open-source projects, and also helps you to make your first contributions as an open-source developer.
 
+### How to use
+
+1. To select your preferred language, enter the command /setmylang
+
+![repos.png](src/main/resources/static/howtouse/setmylang.png)
+
+2. To get a list of repositories, enter the command /repos
+
+![repos.png](src/main/resources/static/howtouse/repos.png)
+
+3. To get a list of issues, enter the command /issues
+
+![repos.png](src/main/resources/static/howtouse/issues.png)
+
+4. You can change order and direction of sorting repositories and tasks. To do this, enter the command /settings
+
+![repos.png](src/main/resources/static/howtouse/settings.png)
+
 ### Development
 
 Telegram:

@@ -24,7 +24,7 @@ The bot allows you to easily pick up your first good issues from popular open-so
 
 ![repos.png](src/main/resources/static/howtouse/issues.png)
 
-4. You can change order and direction of sorting repositories and tasks. To do this, enter the command /settings
+4. You can change order and direction of sorting repositories and issues. To do this, enter the command /settings
 
 ![repos.png](src/main/resources/static/howtouse/settings.png)
 

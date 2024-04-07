@@ -39,6 +39,7 @@ dependencies {
 	implementation 'org.jsoup:jsoup:1.15.3'
 
 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+	implementation 'org.projectlombok:lombok:1.18.22'
 
 	compileOnly 'org.projectlombok:lombok:1.18.24'
 
